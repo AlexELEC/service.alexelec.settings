@@ -48,11 +48,11 @@ msgstr "Архитектура:"
 
 msgctxt "#609"
 msgid "AlexELEC is created by a global team of Linux and Kodi enthusiasts who contribute time and effort to manage the project, write code, and provide support. We have fun making it. We hope you have fun using it!"
-msgstr "AlexELEC создан глобальной командой энтузиастов Linux и Kodi, которые тратят время и усилия на управление проектом, написание кода и оказание поддержки. Нам весело делать это. Надеемся, вам понравится это!"
+msgstr "AlexELEC создан командой энтузиастов Linux и Kodi, которые тратят время и усилия на управление проектом, написание кода и оказание поддержки. Надеемся, вам понравится это!"
 
 msgctxt "#610"
 msgid "[B]Support[/B] is provided via our forum:[CR]http://forum.alexelec.in.ua[CR][CR][B]Documentation[/B] can be read in our website:[CR]http://www.alexelec.in.ua[CR][CR][B]Code[/B] can be found on GitHub:[CR]https://github.com/AlexELEC[CR][CR][B]Donations[/B] towards project expenses are accepted via page:[CR]http://www.alexelec.in.ua/membership"
-msgstr "[B]Поддержка[/B] предоставляется через форум:[CR]http://forum.alexelec.in.ua[CR][CR][B]Документацию[/B] можно прочитать на сайте:[CR]http://www.alexelec.in.ua[CR][CR][B]Код[/B] можно найти на GitHub:[CR]https://github.com/AlexELEC[CR][CR][B]Пожертвования[/B] на расходы по проекту принимаются на странице:[CR]http://www.alexelec.in.ua/membership"
+msgstr "[B]Поддержка[/B] предоставляется через форум:[CR]http://forum.alexelec.in.ua[CR][B]Документацию[/B] можно прочитать на сайте:[CR]http://www.alexelec.in.ua[CR][B]Исходный код[/B] можно найти на GitHub:[CR]https://github.com/AlexELEC[CR][B]Пожертвования[/B] на расходы по проекту принимаются на странице:[CR]http://www.alexelec.in.ua/membership"
 
 msgctxt "#700"
 msgid ""
@@ -78,9 +78,7 @@ msgid "Configure and pair Bluetooth devices"
 msgstr "Настройка и сопряжение устройств Bluetooth"
 
 msgctxt "#705"
-msgid ""
-"Useful information like version and architecture details, support and "
-"documentation links, and how to donate and support the project."
+msgid "Useful information like version and architecture details, support and documentation links."
 msgstr "Полезная информация, такая как сведения о версии и архитектуре, ссылки на поддержку и документацию, а также как пожертвовать и поддержать проект."
 
 msgctxt "#707"
