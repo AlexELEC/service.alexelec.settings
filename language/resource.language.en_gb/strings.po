@@ -931,3 +931,225 @@ msgstr ""
 msgctxt "#32399"
 msgid "Public"
 msgstr ""
+
+########## TORRENT #########
+
+msgctxt "#34000"
+msgid "Torrent Services"
+msgstr ""
+
+msgctxt "#3400"
+msgid "Torrent services config."
+msgstr ""
+
+msgctxt "#34010"
+msgid "AceStream Engine"
+msgstr ""
+
+msgctxt "#34011"
+msgid "Enable"
+msgstr ""
+
+msgctxt "#3411"
+msgid "Ace Stream is an innovative multimedia platform of a new generation. Ace Stream uses in its core, P2P (peer-to-peer) technology, BitTorrent protocol, which is acknowledged as the most effective protocol to transfer content."
+msgstr ""
+
+msgctxt "#34012"
+msgid "Debug"
+msgstr ""
+
+msgctxt "#3412"
+msgid "Enable advanced debugging AceStream."
+msgstr ""
+
+########## TORRSERVER #########
+
+msgctxt "#34080"
+msgid "TorrServer Daemon"
+msgstr ""
+
+msgctxt "#3481"
+msgid "TorrServer: torrent to http server."
+msgstr ""
+
+msgctxt "#34082"
+msgid "Port"
+msgstr ""
+
+msgctxt "#3482"
+msgid "TorrServer port number (default: 8090)."
+msgstr ""
+
+msgctxt "#3483"
+msgid "Enable debugging TorrServer."
+msgstr ""
+
+########## TTV-LIST #########
+
+msgctxt "#34050"
+msgid "TTV Playlist"
+msgstr ""
+
+msgctxt "#3450"
+msgid "Create AceStream playlist for Torrent-TV."
+msgstr ""
+
+msgctxt "#34051"
+msgid "Channel groups"
+msgstr ""
+
+msgctxt "#3451"
+msgid "Select the required channel group."
+msgstr ""
+
+msgctxt "#34060"
+msgid "Create playlist"
+msgstr ""
+
+msgctxt "#34061"
+msgid "External IP"
+msgstr ""
+
+msgctxt "#3461"
+msgid "Use external IP-address in playlist."
+msgstr ""
+
+msgctxt "#34063"
+msgid "Execute ->"
+msgstr ""
+
+msgctxt "#3463"
+msgid "Create a playlist for Torrent-TV (/storage/ttv-m3u/)."
+msgstr ""
+
+msgctxt "#34064"
+msgid "Login"
+msgstr ""
+
+msgctxt "#3464"
+msgid "Login from site http://torrent-tv.ru"
+msgstr ""
+
+msgctxt "#34065"
+msgid "Password"
+msgstr ""
+
+msgctxt "#3465"
+msgid "Password from site http://torrent-tv.ru"
+msgstr ""
+
+msgctxt "#34066"
+msgid "Channel Source:"
+msgstr ""
+
+msgctxt "#3466"
+msgid "Channel source for AceStream: Trash (http://pomoyka.win) or Site (http://torrent-tv.ru)."
+msgstr ""
+
+msgctxt "#34067"
+msgid "Update playlists"
+msgstr ""
+
+msgctxt "#3467"
+msgid "Automatically update playlists before Kodi starts."
+msgstr ""
+
+########## TV Service #########
+
+msgctxt "#43000"
+msgid "TV services"
+msgstr ""
+
+msgctxt "#4300"
+msgid "Configure Tvheadend and CAMD server."
+msgstr ""
+
+### OSCAM_DAEMON ###
+
+msgctxt "#42020"
+msgid "Oscam server"
+msgstr ""
+
+msgctxt "#42021"
+msgid "Enable Oscam"
+msgstr ""
+
+msgctxt "#4221"
+msgid "OSCam is an Open Source Conditional Access Module software, based on the very good MpCS version 0.9d."
+msgstr ""
+
+### TVHEADEND ###
+
+msgctxt "#42030"
+msgid "Tvheadend Configuration"
+msgstr ""
+
+msgctxt "#42031"
+msgid "Enable Tvheadend"
+msgstr ""
+
+msgctxt "#4231"
+msgid "Tvheadend is a TV streaming server and recorder supporting DVB-S, DVB-S2, DVB-C, DVB-T, ATSC, ISDB-T, IPTV, SAT>IP as input sources."
+msgstr ""
+
+msgctxt "#42032"
+msgid "Wait DVB frontend"
+msgstr ""
+
+msgctxt "#4232"
+msgid "Wait DVB frontend before the start TVH (max 30 sec)."
+msgstr ""
+
+msgctxt "#42033"
+msgid "Enable Debug"
+msgstr ""
+
+msgctxt "#4233"
+msgid "Enable debugging Tvheadend."
+msgstr ""
+
+### Channel logos ###
+
+msgctxt "#43050"
+msgid "Channel logos"
+msgstr ""
+
+msgctxt "#43052"
+msgid "Clear Logos"
+msgstr ""
+
+msgctxt "#4352"
+msgid "If enabled old logos of channels will be removed."
+msgstr ""
+
+msgctxt "#43053"
+msgid "Background color"
+msgstr ""
+
+msgctxt "#4353"
+msgid "Background logos color."
+msgstr ""
+
+msgctxt "#43054"
+msgid "Foreground color"
+msgstr ""
+
+msgctxt "#4354"
+msgid "Foreground logos color."
+msgstr ""
+
+msgctxt "#43055"
+msgid "Text color"
+msgstr ""
+
+msgctxt "#4355"
+msgid "Text logos color."
+msgstr ""
+
+msgctxt "#43056"
+msgid "Create logos"
+msgstr ""
+
+msgctxt "#4356"
+msgid "Create logos channels."
+msgstr ""

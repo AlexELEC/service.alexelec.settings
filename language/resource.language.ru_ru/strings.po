@@ -1016,3 +1016,225 @@ msgstr "Главное меню"
 msgctxt "#32399"
 msgid "Public"
 msgstr "Общественные"
+
+########## TORRENT #########
+
+msgctxt "#34000"
+msgid "Torrent Services"
+msgstr "Торрент сервисы"
+
+msgctxt "#3400"
+msgid "Torrent services config."
+msgstr "Настройки Торрент сервисов."
+
+msgctxt "#34010"
+msgid "AceStream Engine"
+msgstr "Движок AceStream"
+
+msgctxt "#34011"
+msgid "Enable"
+msgstr "Включить"
+
+msgctxt "#3411"
+msgid "Ace Stream is an innovative multimedia platform of a new generation. Ace Stream uses in its core, P2P (peer-to-peer) technology, BitTorrent protocol, which is acknowledged as the most effective protocol to transfer content."
+msgstr "Ace Stream - это инновационная мультимедийная платформа нового поколения. В своей основе Ace Stream использует технологию P2P (peer-to-peer), протокол BitTorrent, который признан наиболее эффективным протоколом для передачи контента."
+
+msgctxt "#34012"
+msgid "Debug"
+msgstr "Отладка"
+
+msgctxt "#3412"
+msgid "Enable advanced debugging AceStream."
+msgstr "Включить расширенное ведение журнала работы AceStream."
+
+########## TORRSERVER #########
+
+msgctxt "#34080"
+msgid "TorrServer Daemon"
+msgstr "Движок TorrServer"
+
+msgctxt "#3481"
+msgid "TorrServer: torrent to http server."
+msgstr "TorrServer: прокси сервер для простора торрент-видео (torrent to http)."
+
+msgctxt "#34082"
+msgid "Port"
+msgstr "Порт"
+
+msgctxt "#3482"
+msgid "TorrServer port number (default: 8090)."
+msgstr "Номер порта на котором TorrServer будет слушать (по умолчанию: 8090)."
+
+msgctxt "#3483"
+msgid "Enable debugging TorrServer."
+msgstr "Включить ведение журнала работы TorrServer."
+
+########## TTV-LIST #########
+
+msgctxt "#34050"
+msgid "TTV Playlist"
+msgstr "ТТВ Плейлист"
+
+msgctxt "#3450"
+msgid "Create AceStream playlist for Torrent-TV."
+msgstr "Создание плейлистов AceStream для Торрент-ТВ."
+
+msgctxt "#34051"
+msgid "Channel groups"
+msgstr "Группы каналов"
+
+msgctxt "#3451"
+msgid "Select the required channel group."
+msgstr "Выберите нужные группы каналов."
+
+msgctxt "#34060"
+msgid "Create playlist"
+msgstr "Создать плейлист"
+
+msgctxt "#34061"
+msgid "External IP"
+msgstr "Внешний IP"
+
+msgctxt "#3461"
+msgid "Use external IP-address in playlist."
+msgstr "Использовать внешний IP-адрес для плейлиста."
+
+msgctxt "#34063"
+msgid "Execute ->"
+msgstr "Выполнить ->"
+
+msgctxt "#3463"
+msgid "Create a playlist for Torrent-TV (/storage/ttv-m3u/)."
+msgstr "Создать плейлист для Торрент-ТВ (/storage/ttv-m3u/)."
+
+msgctxt "#34064"
+msgid "Login"
+msgstr "Логин"
+
+msgctxt "#3464"
+msgid "Login from site http://torrent-tv.ru"
+msgstr "Логин: аккаунт сайта http://torrent-tv.ru"
+
+msgctxt "#34065"
+msgid "Password"
+msgstr "Пароль"
+
+msgctxt "#3465"
+msgid "Password from site http://torrent-tv.ru"
+msgstr "Пароль: аккаунт сайта http://torrent-tv.ru"
+
+msgctxt "#34066"
+msgid "Channel Source:"
+msgstr "Источник каналов:"
+
+msgctxt "#3466"
+msgid "Channel source for AceStream: Trash (http://pomoyka.win) or Site (http://torrent-tv.ru)."
+msgstr "Источник каналов для AceStream: Trash-* (http://pomoyka.win) или Site-TTV (http://torrent-tv.ru)."
+
+msgctxt "#34067"
+msgid "Update playlists"
+msgstr "Обновлять плейлист"
+
+msgctxt "#3467"
+msgid "Automatically update playlists before Kodi starts."
+msgstr "Автоматически обновлять плейлисты перед запуском Kodi."
+
+########## TV Service #########
+
+msgctxt "#43000"
+msgid "TV services"
+msgstr "ТВ сервисы"
+
+msgctxt "#4300"
+msgid "Configure Tvheadend and CAMD server."
+msgstr "Настройки Tvheadend и CAMD серверов."
+
+### OSCAM_DAEMON ###
+
+msgctxt "#42020"
+msgid "Oscam server"
+msgstr "Oscam сервер"
+
+msgctxt "#42021"
+msgid "Enable Oscam"
+msgstr "Включить Oscam"
+
+msgctxt "#4221"
+msgid "OSCam is an Open Source Conditional Access Module software, based on the very good MpCS version 0.9d."
+msgstr "OSCam - это программное обеспечение модуля условного доступа с открытым исходным кодом, основанное на очень хорошей версии MpCS 0.9d."
+
+### TVHEADEND ###
+
+msgctxt "#42030"
+msgid "Tvheadend Configuration"
+msgstr "Настройки Tvheadend"
+
+msgctxt "#42031"
+msgid "Enable Tvheadend"
+msgstr "Включить Tvheadend"
+
+msgctxt "#4231"
+msgid "Tvheadend is a TV streaming server and recorder supporting DVB-S, DVB-S2, DVB-C, DVB-T, ATSC, ISDB-T, IPTV, SAT>IP as input sources."
+msgstr "Tvheadend - это сервер потокового вещания и рекордер, поддерживающий DVB-S, DVB-S2, DVB-C, DVB-T, ATSC, ISDB-T, IPTV, SAT>IP в качестве источников входного сигнала."
+
+msgctxt "#42032"
+msgid "Wait DVB frontend"
+msgstr "Ждать DVB адаптер"
+
+msgctxt "#4232"
+msgid "Wait DVB frontend before the start TVH (max 30 sec)."
+msgstr "Ожидать инициализацию DVB адаптера перед стартом TVH (макс 30 сек)."
+
+msgctxt "#42033"
+msgid "Enable Debug"
+msgstr "Включить отладку"
+
+msgctxt "#4233"
+msgid "Enable debugging Tvheadend."
+msgstr "Включить ведение журнала работы Tvheadend."
+
+### Channel logos ###
+
+msgctxt "#43050"
+msgid "Channel logos"
+msgstr "Логотипы каналов"
+
+msgctxt "#43052"
+msgid "Clear Logos"
+msgstr "Удалять старые логотипы"
+
+msgctxt "#4352"
+msgid "If enabled old logos of channels will be removed."
+msgstr "Если включено, старые логотипы будут удалены."
+
+msgctxt "#43053"
+msgid "Background color"
+msgstr "Цвет фона"
+
+msgctxt "#4353"
+msgid "Background logos color."
+msgstr "Выберите из списка цвет фона для логотипов."
+
+msgctxt "#43054"
+msgid "Foreground color"
+msgstr "Цвет переднего плана"
+
+msgctxt "#4354"
+msgid "Foreground logos color."
+msgstr "Выберите из списка цвет переднего плана для логотипов."
+
+msgctxt "#43055"
+msgid "Text color"
+msgstr "Цвет текста"
+
+msgctxt "#4355"
+msgid "Text logos color."
+msgstr "Выберите из списка цвет текста для логотипов."
+
+msgctxt "#43056"
+msgid "Create logos"
+msgstr "Создать логотипы"
+
+msgctxt "#4356"
+msgid "Create logos channels."
+msgstr "Будут загружены и сконвертированы логотипы каналов. Также, будут созданы недостающие иконки каналов."
