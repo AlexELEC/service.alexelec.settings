@@ -162,14 +162,6 @@ class system:
                             'InfoText': 718,
                             'order': 1,
                             },
-                        'paste_crash': {
-                            'name': 32378,
-                            'value': '0',
-                            'action': 'do_send_crash_logs',
-                            'type': 'button',
-                            'InfoText': 719,
-                            'order': 2,
-                            },
                         },
                     },
                 }
@@ -686,17 +678,6 @@ class system:
         except Exception, e:
             self.oe.dbg_log('system::do_do_send_system_logs', 'ERROR: (' + repr(e) + ')')
 
-    def do_send_crash_logs(self, listItem=None):
-        try:
-            self.oe.dbg_log('system::do_send_crash_logs', 'enter_function', 0)
-            if self.oe.BOOT_STATUS == 'SAFE':
-               self.do_send_logs('Crash', '/storage/.kodi.FAILED', 'kodi_crash.log')
-            else:
-               self.do_send_logs('Crash', '/storage/.kodi', 'kodi_crash.log')
-            self.oe.dbg_log('system::do_send_crash_logs', 'exit_function', 0)
-        except Exception, e:
-            self.oe.dbg_log('system::do_do_send_crash_logs', 'ERROR: (' + repr(e) + ')')
-
     def do_send_logs(self, log_type, kodi_root, kodi_log):
         try:
             self.oe.dbg_log('system::do_send_logs', 'enter_function', 0)
@@ -710,20 +691,8 @@ class system:
             self.oe.execute('echo "Version: %s" >> /storage/.kodi/temp/paste.tmp' % version)
             self.oe.execute('echo "Distro: %s" >> /storage/.kodi/temp/paste.tmp' % self.oe.DISTRIBUTION)
 
-            if self.oe.ARCHITECTURE.endswith('.x86_64'):
-                if os.path.exists('/sys/firmware/efi'):
-                    self.oe.execute('echo "Firmware Boot Mode: EFI" >> /storage/.kodi/temp/paste.tmp')
-                else:
-                    self.oe.execute('echo "Firmware Boot Mode: BIOS" >> /storage/.kodi/temp/paste.tmp')
-
-            self.cat_file('/storage/.kodi/temp/paste.tmp', '/flash/boot.ini') # KVIM/KVIM2/ODROIDC2
-            self.cat_file('/storage/.kodi/temp/paste.tmp', '/flash/config.ini') # KVIM/KVIM2/ODROIDC2
             self.cat_file('/storage/.kodi/temp/paste.tmp', '/flash/config.txt') # RPi
             self.cat_file('/storage/.kodi/temp/paste.tmp', '/flash/cmdline.txt') # RPi
-            self.cat_file('/storage/.kodi/temp/paste.tmp', '/flash/syslinux.cfg') # x86 BIOS
-            self.cat_file('/storage/.kodi/temp/paste.tmp', '/flash/EFI/BOOT/syslinux.cfg') # x86 EFI
-            self.cat_file('/storage/.kodi/temp/paste.tmp', '/flash/extlinux.conf') # x86 legacy
-            self.cat_file('/storage/.kodi/temp/paste.tmp', '/flash/extlinux/extlinux.conf') # u-boot
             self.cat_file('/storage/.kodi/temp/paste.tmp', '%s/temp/%s' % (kodi_root, kodi_log))
             self.oe.execute('journalctl -a > /storage/.kodi/temp/journalctl.txt')
             self.cat_file('/storage/.kodi/temp/paste.tmp', '/storage/.kodi/temp/journalctl.txt', 'journalctl -a')
@@ -736,10 +705,7 @@ class system:
             self.cat_file('/storage/.kodi/temp/paste.tmp', '/sys/class/amhdmitx/amhdmitx0/hdr_cap', 'hdr_cap')
             self.cat_file('/storage/.kodi/temp/paste.tmp', '/sys/class/amhdmitx/amhdmitx0/dc_cap', 'dc_cap')
             self.cat_file('/storage/.kodi/temp/paste.tmp', '/sys/class/amhdmitx/amhdmitx0/preferred_mode', 'preferred_mode')
-            
-            #self.cat_file('/storage/.kodi/temp/paste.tmp', '%s/.smb/smb.conf' % kodi_root)
-            #self.cat_file('/storage/.kodi/temp/paste.tmp', '%s/.smb/user.conf' % kodi_root)
-            #self.cat_file('/storage/.kodi/temp/paste.tmp', '/run/samba/smb.conf')
+
             self.do_pastebin()
             os.remove('/storage/.kodi/temp/journalctl.txt')
             os.remove('/storage/.kodi/temp/lsusb.txt')
