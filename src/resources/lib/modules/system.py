@@ -1,6 +1,5 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
-# Copyright (C) 2009-2013 Stephan Raue (stephan@openelec.tv)
-# Copyright (C) 2013 Lutz Fiebach (lufie@openelec.tv)
+# Copyright (C) 2011-present AlexELEC (http://alexelec.in.ua)
 
 import os
 import re
@@ -700,11 +699,14 @@ class system:
             self.cat_file('/storage/.kodi/temp/paste.tmp', '/storage/.kodi/temp/lsusb.txt', 'lsusb')
             self.oe.execute('lsmod > /storage/.kodi/temp/lsmod.txt')
             self.cat_file('/storage/.kodi/temp/paste.tmp', '/storage/.kodi/temp/lsmod.txt', 'lsmod')
+            self.cat_file('/storage/.kodi/temp/paste.tmp', '/sys/class/amhdmitx/amhdmitx0/disp_cap', 'disp_cap')
             self.cat_file('/storage/.kodi/temp/paste.tmp', '/sys/class/amhdmitx/amhdmitx0/edid', 'edid')
             self.cat_file('/storage/.kodi/temp/paste.tmp', '/sys/class/amhdmitx/amhdmitx0/config', 'display config')
             self.cat_file('/storage/.kodi/temp/paste.tmp', '/sys/class/amhdmitx/amhdmitx0/hdr_cap', 'hdr_cap')
             self.cat_file('/storage/.kodi/temp/paste.tmp', '/sys/class/amhdmitx/amhdmitx0/dc_cap', 'dc_cap')
             self.cat_file('/storage/.kodi/temp/paste.tmp', '/sys/class/amhdmitx/amhdmitx0/preferred_mode', 'preferred_mode')
+            self.cat_file('/storage/.kodi/temp/paste.tmp', '/sys/module/di/parameters/nr2_en', 'noise_reduction')
+            self.cat_file('/storage/.kodi/temp/paste.tmp', '/sys/class/video/disable_cdsw', 'disable_cdsw')
 
             self.do_pastebin()
             os.remove('/storage/.kodi/temp/journalctl.txt')
