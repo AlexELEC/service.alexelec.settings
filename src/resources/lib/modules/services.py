@@ -1,6 +1,7 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
 # Copyright (C) 2009-2013 Stephan Raue (stephan@openelec.tv)
 # Copyright (C) 2013 Lutz Fiebach (lufie@openelec.tv)
+# Copyright (C) 2011-present AlexELEC (http://alexelec.in.ua)
 
 import os
 import glob
@@ -33,7 +34,7 @@ class services:
     OPT_SSH_NOPASSWD = None
     AVAHI_DAEMON = None
     CRON_DAEMON = None
-    menu = {'7': {
+    menu = {'4': {
         'name': 32001,
         'menuLoader': 'load_menu',
         'listTyp': 'list',
@@ -257,6 +258,21 @@ class services:
                             },
                         },
                     },
+                'eventlircd': {
+                    'order': 7,
+                    'name': 32391,
+                    'not_supported': [],
+                    'settings': {
+                        'eventlircd_autostart': {
+                            'order': 1,
+                            'name': 32392,
+                            'value': None,
+                            'action': 'initialize_eventlircd',
+                            'type': 'bool',
+                            'InfoText': 747,
+                            },
+                        },
+                    },
                 }
 
             self.oe = oeMain
@@ -273,6 +289,7 @@ class services:
             self.initialize_avahi(service=1)
             self.initialize_cron(service=1)
             self.init_bluetooth(service=1)
+            self.initialize_eventlircd(service=1)
             self.oe.dbg_log('services::start_service', 'exit_function', 0)
         except Exception, e:
             self.oe.dbg_log('services::start_service', 'ERROR: (%s)' % repr(e))
@@ -379,6 +396,9 @@ class services:
                         self.struct['bluez']['settings']['obex_root']['hidden'] = True
                 else:
                     self.struct['bluez']['hidden'] = 'true'
+
+            # LIRCD
+            self.struct['eventlircd']['settings']['eventlircd_autostart']['value'] = self.oe.get_service_state('eventlircd')
 
             self.oe.dbg_log('services::load_values', 'exit_function', 0)
         except Exception, e:
@@ -524,6 +544,23 @@ class services:
         except Exception, e:
             self.oe.set_busy(0)
             self.oe.dbg_log('services::init_obex', 'ERROR: (' + repr(e) + ')', 4)
+
+    def initialize_eventlircd(self, **kwargs):
+        try:
+            self.oe.dbg_log('services::initialize_eventlircd', 'enter_function', 0)
+            self.oe.set_busy(1)
+            if 'listItem' in kwargs:
+                self.set_value(kwargs['listItem'])
+            state = 0
+            options = {}
+            if self.struct['eventlircd']['settings']['eventlircd_autostart']['value'] == '1':
+                state = 1
+            self.oe.set_service('eventlircd', options, state)
+            self.oe.set_busy(0)
+            self.oe.dbg_log('services::initialize_eventlircd', 'exit_function', 0)
+        except Exception, e:
+            self.oe.set_busy(0)
+            self.oe.dbg_log('services::initialize_eventlircd', 'ERROR: (' + repr(e) + ')', 4)
 
     def exit(self):
         try:

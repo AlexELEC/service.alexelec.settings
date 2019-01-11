@@ -208,6 +208,10 @@ msgctxt "#746"
 msgid "Set the password for SSH"
 msgstr ""
 
+msgctxt "#747"
+msgid "Set to ON to enable the eventlirc daemon"
+msgstr ""
+
 msgctxt "#750"
 msgid "750"
 msgstr ""
@@ -890,6 +894,14 @@ msgstr ""
 
 msgctxt "#32390"
 msgid "Settings addon is not yet ready, please try again later."
+msgstr ""
+
+msgctxt "#32391"
+msgid "Eventlirc"
+msgstr ""
+
+msgctxt "#32392"
+msgid "Enable Eventlirc"
 msgstr ""
 
 msgctxt "#32393"

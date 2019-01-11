@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
 # Copyright (C) 2009-2013 Stephan Raue (stephan@openelec.tv)
 # Copyright (C) 2013 Lutz Fiebach (lufie@openelec.tv)
-# Copyright (C) 2017-present Team LibreELEC
+# Copyright (C) 2011-present AlexELEC (http://alexelec.in.ua)
 
 import os
 import xbmc
@@ -471,13 +471,13 @@ class connman:
     WAIT_CONF_FILE = None
     NF_CUSTOM_PATH = "/storage/.config/iptables/"
     menu = {
-        '3': {
+        '2': {
             'name': 32101,
             'menuLoader': 'menu_loader',
             'listTyp': 'list',
             'InfoText': 701,
             },
-        '4': {
+        '3': {
             'name': 32100,
             'menuLoader': 'menu_connections',
             'listTyp': 'netlist',

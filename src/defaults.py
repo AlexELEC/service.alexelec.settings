@@ -1,4 +1,6 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
+# Copyright (C) 2009-2013 Stephan Raue (stephan@openelec.tv)
+# Copyright (C) 2013 Lutz Fiebach (lufie@openelec.tv)
 # Copyright (C) 2011-present AlexELEC (http://alexelec.in.ua)
 
 import os
@@ -10,6 +12,10 @@ import os
 XBMC_USER_HOME = os.environ.get('XBMC_USER_HOME', '/storage/.kodi')
 CONFIG_CACHE = os.environ.get('CONFIG_CACHE', '/storage/.cache')
 USER_CONFIG = os.environ.get('USER_CONFIG', '/storage/.config')
+
+BIN_DIR_EXT = '%s/addons/service.alexelec.settings/resources/bin' % XBMC_USER_HOME
+BIN_DIR_INT = '/usr/share/kodi/addons/service.alexelec.settings/resources/bin'
+SCRIPT_DIR = lambda : (BIN_DIR_EXT if os.path.exists(BIN_DIR_EXT) else BIN_DIR_INT)
 
 ################################################################################
 # Connamn Module
@@ -85,5 +91,6 @@ _services = {
     'bluez': ['bluetooth.service'],
     'obexd': ['obex.service'],
     'crond': ['cron.service'],
+    'eventlircd': ['eventlircd.service'],
     'iptables': ['iptables.service'],
     }
