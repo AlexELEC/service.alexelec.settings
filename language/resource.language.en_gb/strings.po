@@ -1015,7 +1015,7 @@ msgid "Use external IP-address in playlist."
 msgstr ""
 
 msgctxt "#34063"
-msgid "Execute ->"
+msgid "Execute"
 msgstr ""
 
 msgctxt "#3463"
