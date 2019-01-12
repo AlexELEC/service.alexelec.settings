@@ -1100,8 +1100,8 @@ msgid "Use external IP-address in playlist."
 msgstr "Использовать внешний IP-адрес для плейлиста."
 
 msgctxt "#34063"
-msgid "Execute ->"
-msgstr "Выполнить ->"
+msgid "Execute"
+msgstr "Выполнить"
 
 msgctxt "#3463"
 msgid "Create a playlist for Torrent-TV (/storage/ttv-m3u/)."
