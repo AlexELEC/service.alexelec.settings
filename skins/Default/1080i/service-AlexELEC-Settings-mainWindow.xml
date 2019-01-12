@@ -94,22 +94,6 @@
                 <height>3</height>
                 <texture colordiffuse="FF12B2E7" border="2">default/separator-grey.png</texture>
             </control>
-            <control type="image">
-                <left>-10</left>
-                <top>770</top>
-                <width>400</width>
-                <height>3</height>
-                <texture colordiffuse="FF12B2E7" border="2">dialogs/separator-grey.png</texture>
-            </control>
-            <control type="image">
-                <description>LOGO</description>
-                <left>15</left>
-                <top>775</top>
-                <width>360</width>
-                <height>150</height>
-                <aspectratio>keep</aspectratio>
-                <texture>$INFO[Window.Property(DIST_MEDIA)]/Logo.png</texture>
-            </control>
             <control type="group">
                 <left>420</left>
                 <top>138</top>
@@ -122,6 +106,13 @@
                     <width>1256</width>
                     <height>3</height>
                     <visible>String.IsEqual(Container(1000).ListItem.Property(listTyp), 1900)</visible>
+                    <control type="image">
+                        <left>980</left>
+                        <top>-30</top>
+                        <width>250</width>
+                        <height>250</height>
+                        <texture border="0">default/logo_big.png</texture>
+                    </control>
                     <control type="label">
                         <left>60</left>
                         <top>50</top>
