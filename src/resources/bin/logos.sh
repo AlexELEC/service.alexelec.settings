@@ -58,11 +58,11 @@ elif [ "$1" == "list" ]; then
           fi
       fi
   done
+  echo "" > $LOG_FILE
 
 # Convert downloaded logos
 elif [ "$1" == "convert" ] ; then
-  rm -f $LOG_FILE
-  touch $LOG_FILE
+  echo "" > $LOG_FILE
   mkdir -p $LOGOS_DIR
   [ "$LOGOS_CLEAR" == "1" ] && rm -rf $LOGOS_DIR/*
 
