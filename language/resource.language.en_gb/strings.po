@@ -1108,6 +1108,14 @@ msgctxt "#4233"
 msgid "Enable debugging Tvheadend."
 msgstr ""
 
+msgctxt "#42034"
+msgid "Antenna power"
+msgstr ""
+
+msgctxt "#4234"
+msgid "Enable DVB-T2 antenna power (+5v)."
+msgstr ""
+
 ### Channel logos ###
 
 msgctxt "#43050"

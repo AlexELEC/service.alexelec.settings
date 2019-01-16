@@ -1193,6 +1193,14 @@ msgctxt "#4233"
 msgid "Enable debugging Tvheadend."
 msgstr "Включить ведение журнала работы Tvheadend."
 
+msgctxt "#42034"
+msgid "Antenna power"
+msgstr "Питание антенны"
+
+msgctxt "#4234"
+msgid "Enable DVB-T2 antenna power (+5v)."
+msgstr "Включить питание DVB-T2 антенны (+5v). Будьте осторожны активируя эту опцию."
+
 ### Channel logos ###
 
 msgctxt "#43050"

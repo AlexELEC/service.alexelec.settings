@@ -18,6 +18,8 @@ class htscam:
     ENABLED = False
     D_TVH_DEBUG = None
     D_TVH_FEINIT = None
+    D_TVH_ANTPOWER = None
+    ANTPOWER = None
 
     URL_LOGOS_FILE = None
     RUN_LOGOS = None
@@ -88,6 +90,15 @@ class htscam:
                             'type': 'bool',
                             'parent': {'entry': 'enable_tvheadend','value': ['1']},
                             'InfoText': 4233,
+                        },
+                        'tvh_antpower': {
+                            'order': 4,
+                            'name': 42034,
+                            'value': '0',
+                            'action': 'initialize_tvheadend',
+                            'type': 'bool',
+                            'parent': {'entry': 'enable_tvheadend','value': ['1']},
+                            'InfoText': 4234,
                         },
                     },
                 },
@@ -212,6 +223,13 @@ class htscam:
             self.struct['tvheadend']['settings']['tvh_feinit']['value'] = \
             self.oe.get_service_option('tvheadend', 'TVH_FEINIT', self.D_TVH_FEINIT).replace('"', '')
 
+            # dvb-t2 antenna power
+            if os.path.isfile(self.ANTPOWER):
+                self.struct['tvheadend']['settings']['tvh_antpower']['value'] = \
+                self.oe.get_service_option('tvheadend', 'TVH_ANTPOWER', self.D_TVH_ANTPOWER).replace('"', '')
+            else:
+                self.struct['tvheadend']['hidden'] = 'true'
+
             # Logos
             self.struct['logos']['settings']['logos_clear']['value'] = \
             self.oe.get_service_option('logos', 'LOGOS_CLEAR', self.D_LOGOS_CLEAR).replace('"', '')
@@ -258,6 +276,7 @@ class htscam:
                 state = 1
                 options['TVH_DEBUG']    = '"%s"' % self.struct['tvheadend']['settings']['tvh_debug']['value']
                 options['TVH_FEINIT'] = '"%s"' % self.struct['tvheadend']['settings']['tvh_feinit']['value']
+                options['TVH_ANTPOWER'] = '"%s"' % self.struct['tvheadend']['settings']['tvh_antpower']['value']
             self.oe.set_service('tvheadend', options, state)
             self.oe.set_busy(0)
             self.oe.dbg_log('tvserver::initialize_tvheadend', 'exit_function', 0)

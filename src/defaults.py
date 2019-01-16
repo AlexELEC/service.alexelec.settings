@@ -87,6 +87,8 @@ htscam = {
     #TVHEADEND
     'D_TVH_DEBUG'    : '0',
     'D_TVH_FEINIT'   : '0',
+    'D_TVH_ANTPOWER' : '0',
+    'ANTPOWER'       : '/proc/aml_fe/antoverload',
 
     #CH LOGOS
     'URL_LOGOS_FILE'      : 'https://github.com/AlexELEC/channel-logos/releases/download/v1.0/logos.tar.bz2',
