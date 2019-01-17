@@ -33,7 +33,7 @@ class htscam:
     D_LOGOS_FG_COLOR = None
     D_LOGOS_TEXT_COLOR = None
 
-    menu = {'93': {
+    menu = {'91': {
         'name': 43000,
         'menuLoader': 'load_menu',
         'listTyp': 'list',

@@ -17,7 +17,7 @@ class ace:
     D_TORRSRV_DEBUG = None
     TORRSRV_GET_SRC = None
 
-    menu = {'91': {
+    menu = {'92': {
         'name': 34000,
         'menuLoader': 'load_menu',
         'listTyp': 'list',

@@ -33,7 +33,7 @@ class aceplist:
     TTV_DEL_LIST = None
     TTV_RUN_LIST = None
 
-    menu = {'92': {
+    menu = {'93': {
         'name': 34050,
         'menuLoader': 'load_menu',
         'listTyp': 'list',
