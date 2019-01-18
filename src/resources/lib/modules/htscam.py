@@ -228,7 +228,7 @@ class htscam:
                 self.struct['tvheadend']['settings']['tvh_antpower']['value'] = \
                 self.oe.get_service_option('tvheadend', 'TVH_ANTPOWER', self.D_TVH_ANTPOWER).replace('"', '')
             else:
-                self.struct['tvheadend']['hidden'] = 'true'
+                self.struct['tvheadend']['settings']['tvh_antpower']['hidden'] = 'true'
 
             # Logos
             self.struct['logos']['settings']['logos_clear']['value'] = \
