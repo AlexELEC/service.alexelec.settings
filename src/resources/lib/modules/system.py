@@ -668,6 +668,18 @@ class system:
                 self.oe.execute('echo "========== %s ==========" >> %s' % (filen, tmp))
             self.oe.execute('cat %s >> %s' % (filen, tmp))
 
+    def get_device_tree_id(self):
+        if os.path.exists('/proc/device-tree/le-dt-id'):
+            dtid = self.oe.load_file('/proc/device-tree/le-dt-id').rstrip('\x00')
+        elif os.path.exists('/proc/device-tree/ae-dt-id'):
+            dtid = self.oe.load_file('/proc/device-tree/ae-dt-id').rstrip('\x00')
+        elif os.path.exists('/proc/device-tree/ce-dt-id'):
+            dtid = self.oe.load_file('/proc/device-tree/ce-dt-id').rstrip('\x00')
+        else:
+            dtid = 'unknown'
+        self.oe.dbg_log('system::get_device_tree_id', 'dtid: %s' % dtid, 0)
+        return dtid
+
     def do_send_system_logs(self, listItem=None):
         try:
             self.oe.dbg_log('system::do_send_system_logs', 'enter_function', 0)
