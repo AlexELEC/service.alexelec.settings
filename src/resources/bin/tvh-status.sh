@@ -20,6 +20,7 @@ EXT_TVH_CFG="/storage/.kodi/userdata/addon_data/pvr.hts/settings.xml"
 ch_count=`curl -s $TVH_URL'/api/channel/grid?start=0&limit=1' | jq -r '.total'`
 if [ -n "$ch_count" -a "$ch_count" -gt 0 ]; then
   echo "TVH_URL=\"$TVH_URL\"" > /tmp/tvh-url.logos
+  echo "$ch_count" > /tmp/tvh-count.logos
   echo 'OK'
 else
   echo 'ERROR'

@@ -23,6 +23,7 @@ class htscam:
 
     URL_LOGOS_FILE = None
     RUN_LOGOS = None
+    GET_CH_COUNT = None
     GET_LOGO_COUNT = None
     GET_MISS_COUNT = None
     GET_TVH_STATUS = None
@@ -317,13 +318,32 @@ class htscam:
 
             self.download_file = self.URL_LOGOS_FILE
             if hasattr(self, 'download_file'):
-                downloaded = self.oe.download_file(self.download_file, self.oe.TEMP + self.download_file.split('/')[-1], silent)
-                if not downloaded is None:
-                    self.oe.notify(self.oe._(32363), 'Unpack logos... Wait about 60 sec.')
-                    self.oe.set_busy(1)
-                    self.oe.execute(self.RUN_LOGOS + ' unpack', 0)
+                if os.path.isfile('/storage/.kodi/temp/logos.tar.bz2'):
+                    downloaded = '/storage/.kodi/temp/logos.tar.bz2'
+                else:
+                    downloaded = self.oe.download_file(self.download_file, self.oe.TEMP + self.download_file.split('/')[-1], silent)
 
+                if not downloaded is None:
+                    self.oe.notify(self.oe._(32363), 'Unpack logos... Wait about a minute.')
+                    self.oe.set_busy(1)
+                    message_unpack = self.oe.execute(self.RUN_LOGOS + ' unpack', 1).strip()
+                    self.oe.set_busy(0)
+
+                    if message_unpack == 'Unpack logos completed.':
+                        self.oe.set_busy(1)
+                        ch_count = self.oe.execute(self.GET_CH_COUNT, 1).strip()
+                        self.oe.set_busy(0)
+                        dialog = xbmcgui.Dialog()
+                        dialog.notification('Channels in Tvheadend: %s' % ch_count, 'wait a few minutes...', xbmcgui.NOTIFICATION_INFO, 90000)
+                    else:
+                        self.oe.notify(self.oe._(32363), 'Error: unpack logos... try again.')
+                        return
+
+                    self.oe.set_busy(1)
                     self.oe.execute(self.RUN_LOGOS + ' list', 0)
+                    self.oe.set_busy(0)
+
+                    self.oe.set_busy(1)
                     logo_count = self.oe.execute(self.GET_LOGO_COUNT, 1).strip()
                     logo_count = int(logo_count)
                     self.oe.set_busy(0)
@@ -336,8 +356,7 @@ class htscam:
                                         stderr=subprocess.STDOUT)
 
                     xbmcDialog = xbmcgui.DialogProgress()
-                    xbmcDialog.create('Conversion logos', "",
-                                'Number logos in list:  %d' % logo_count)
+                    xbmcDialog.create('Conversion logos', 'Number logos in list:  %d' % logo_count)
 
                     message = self.oe.execute(self.LOGO_GET_LOG, 1).strip()
                     message_tmp = message
@@ -354,17 +373,17 @@ class htscam:
                         xbmc.sleep(500)
                         if xbmcDialog.iscanceled():
                             self.oe.execute(self.KILL_LOGO_SH, 0)
-                            break
+                            return
 
                     xbmc.sleep(1000)
                     xbmcDialog.close()
 
-                    self.oe.notify(self.oe._(32363), 'Create missing logos list...')
                     self.oe.set_busy(1)
                     miss_msg = self.oe.execute(self.RUN_LOGOS + ' misslist', 1).strip()
                     self.oe.set_busy(0)
 
                     if miss_msg == 'YES':
+                        self.oe.notify(self.oe._(32363), 'Create missing logos...')
                         logo_count = self.oe.execute(self.GET_MISS_COUNT, 1).strip()
                         logo_count = int(logo_count)
                         subprocess.Popen(self.RUN_LOGOS + ' missing',
@@ -374,8 +393,7 @@ class htscam:
                                         stderr=subprocess.STDOUT)
 
                         xbmcDialog = xbmcgui.DialogProgress()
-                        xbmcDialog.create('Create missing logos', "",
-                                'Number logos in list:  %d' % logo_count)
+                        xbmcDialog.create('Create missing logos', 'Number logos in list:  %d' % logo_count)
 
                         message = self.oe.execute(self.LOGO_GET_LOG, 1).strip()
                         message_tmp = message
@@ -392,7 +410,7 @@ class htscam:
                             xbmc.sleep(500)
                             if xbmcDialog.iscanceled():
                                 self.oe.execute(self.KILL_LOGO_SH, 0)
-                                break
+                                return
 
                         xbmc.sleep(3000)
                         xbmcDialog.close()

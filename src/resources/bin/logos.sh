@@ -11,11 +11,11 @@ RNAME_DIR="/storage/picons/rename"
 TVH_URL="http://127.0.0.1:9981"
 [ -f /tmp/tvh-url.logos ] && . /tmp/tvh-url.logos
 TVH_CH_COUNT=`curl -s $TVH_URL'/api/channel/grid?start=0&limit=1' | jq -r '.total'`
-TVH_CH_COUNT=`expr $TVH_CH_COUNT - 1`
 
 LOG_FILE="/tmp/logo_conv.log"
 MISS_FILE="/tmp/miss_logo.log"
 RENAME_FILE="/tmp/rename_logo.log"
+TVH_FILE="/tmp/tvhch_logo.log"
 TEMP_DIR="/storage/.kodi/temp"
 SOURCE_DIR="$TEMP_DIR/logos_src" #logo source directory / путь к логотипам с прозрачными фонами
 SOURCE_DIR_LOGOS="$SOURCE_DIR/logos" #logo source directory <logos>
@@ -36,26 +36,35 @@ if [ "$1" == "unpack" ] ; then
   rm -rf $SOURCE_DIR
   mkdir -p $SOURCE_DIR
   tar -jxf $TEMP_DIR/logos.tar.bz2 -C $SOURCE_DIR
-  rm -f $TEMP_DIR/logos.tar.bz2
   echo "Unpack logos completed."
 
 # Create logos list file
 elif [ "$1" == "list" ]; then
+  rm -f $MISS_FILE
+  rm -f $RENAME_FILE
   rm -f $SOURCE_FILE_NAMES
   touch $SOURCE_FILE_NAMES
 
   # reading channels from TVH
-  for channel in `seq 0 $TVH_CH_COUNT`; do
-      ch_name=`curl -s $TVH_URL'/api/channel/grid?start='$channel'&limit=1' | jq -r '.entries | .[] | .name' | sed 's/\// /; s/|//; s/://; s/  / /g; s/ test$//i; s/[ \t]*$//'`
-      ch_icon=`curl -s $TVH_URL'/api/channel/grid?start='$channel'&limit=1' | jq -r '.entries | .[] | .icon'  | awk -F\: '{print $1}'`
-      if [ -z "$ch_name" -o "$ch_icon" != "picon" ]; then
+  curl -s "$TVH_URL/api/channel/grid?start=0&limit=$TVH_CH_COUNT" | jq -r '.entries | .[] | .name + " -*- " + .icon' > $TVH_FILE
+
+  cat $TVH_FILE | while read -r ch_tvh; do
+      ch_name=$(echo "$ch_tvh" | awk -F' -\*-' '{print $1}' | sed 's/\// /; s/|//; s/://; s/  / /g; s/ test$//i; s/[ \t]*$//')
+      ch_picon=$(echo "$ch_tvh" | awk -F'-\*- ' '{print $2}')
+
+      if [ -z "$ch_name" -o -n "${ch_picon##picon*}" ]; then
           continue
       else
           IS_FILE=`find "$SOURCE_DIR_LOGOS" -iname "$ch_name.png" | grep -m1 .`
           if [ -n "$IS_FILE" ]; then
               IS_FILE_LIST=`grep -i -m1 -x "$IS_FILE" $SOURCE_FILE_NAMES`
               [ -z "$IS_FILE_LIST" ] && echo "$IS_FILE" >> $SOURCE_FILE_NAMES
+          else # Missing logos
+              echo "$ch_name" >> $MISS_FILE
           fi
+          ch_service=`curl -s $TVH_URL'/api/channel/grid?start='$channel'&limit=1' | jq -r '.entries | .[] | .icon' | sed 's/^picon:\/\///; s/\.png$//;'`
+          ch_picon_tvh_name=$(echo "$ch_picon" | sed 's/^picon:\/\///; s/\.png$//;')
+          echo "$ch_name -*- $ch_picon_tvh_name" >> $RENAME_FILE
       fi
   done
   echo "" > $LOG_FILE
@@ -82,25 +91,9 @@ elif [ "$1" == "convert" ] ; then
      done
   echo "Conversion logos completed." > $LOG_FILE
 
-# Missing logos count
+# Missing logos
 elif [ "$1" == "misslist" ] ; then
-  rm -f $MISS_FILE
 
-  # reading channels from TVH
-  for channel in `seq 0 $TVH_CH_COUNT`; do
-      ch_name=`curl -s $TVH_URL'/api/channel/grid?start='$channel'&limit=1' | jq -r '.entries | .[] | .name' | sed 's/\// /; s/|//; s/://; s/  / /g; s/ test$//i; s/[ \t]*$//'`
-      ch_icon=`curl -s $TVH_URL'/api/channel/grid?start='$channel'&limit=1' | jq -r '.entries | .[] | .icon'  | awk -F\: '{print $1}'`
-      if [ -z "$ch_name" -o "$ch_icon" != "picon" ]; then
-          continue
-      else
-          lcase_name=$(echo "$ch_name" | tr 'A-Z' 'a-z' | sed 's/\// /')
-          target_file="$LOGOS_DIR/$lcase_name.png"
-
-          if [ ! -e "$target_file" ] ; then
-              echo "$target_file" >> $MISS_FILE
-          fi
-      fi
-  done
   if [ -f "$MISS_FILE" ]; then
       echo 'YES'
   else
@@ -116,13 +109,8 @@ elif [ "$1" == "missing" ] ; then
   if [ -f "$MISS_FILE" ]; then
       mkdir -p $OUTPUT_DIR_TEMP
 
-      # reading channels from TVH
-      for channel in `seq 0 $TVH_CH_COUNT`; do
-          ch_name=`curl -s $TVH_URL'/api/channel/grid?start='$channel'&limit=1' | jq -r '.entries | .[] | .name' | sed 's/\// /; s/|//; s/://; s/  / /g; s/ test$//i; s/[ \t]*$//'`
-          ch_icon=`curl -s $TVH_URL'/api/channel/grid?start='$channel'&limit=1' | jq -r '.entries | .[] | .icon'  | awk -F\: '{print $1}'`
-          if [ -z "$ch_name" -o "$ch_icon" != "picon" ]; then
-              continue
-          else
+      cat $MISS_FILE |
+          while read -r ch_name ; do
               lcase_name=$(echo "$ch_name" | tr 'A-Z' 'a-z' | sed 's/\// /')
               target_file="$LOGOS_DIR/$lcase_name.png"
               tmp_file="$OUTPUT_DIR_TEMP/$lcase_name.png"
@@ -146,8 +134,7 @@ elif [ "$1" == "missing" ] ; then
                   composite - $BACKGROUND png:- 2> /dev/null | \
                   composite -compose screen -blend 50x100 $FOREGROUND - "$target_file" 2> /dev/null
               fi
-          fi
-      done
+          done
       rm -rf $OUTPUT_DIR_TEMP
   fi
 
@@ -155,18 +142,6 @@ elif [ "$1" == "missing" ] ; then
 
   #rename
   echo "Rename logos..." > $LOG_FILE
-  # reading channels from TVH
-  rm -f $RENAME_FILE
-  for channel in `seq 0 $TVH_CH_COUNT`; do
-      ch_name=`curl -s $TVH_URL'/api/channel/grid?start='$channel'&limit=1' | jq -r '.entries | .[] | .name' | sed 's/\// /; s/|//; s/://; s/  / /g; s/ test$//i; s/[ \t]*$//'`
-      ch_icon=`curl -s $TVH_URL'/api/channel/grid?start='$channel'&limit=1' | jq -r '.entries | .[] | .icon'  | awk -F\: '{print $1}'`
-      if [ -z "$ch_name" -o "$ch_icon" != "picon" ]; then
-          continue
-      else
-          ch_service=`curl -s $TVH_URL'/api/channel/grid?start='$channel'&limit=1' | jq -r '.entries | .[] | .icon' | sed 's/^picon:\/\///; s/\.png$//;'`
-          echo "$ch_name -*- $ch_service" >> $RENAME_FILE
-      fi
-  done
 
   rm -rf $RNAME_DIR
   mkdir -p $RNAME_DIR

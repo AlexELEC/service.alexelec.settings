@@ -93,6 +93,7 @@ htscam = {
     #CH LOGOS
     'URL_LOGOS_FILE'      : 'https://github.com/AlexELEC/channel-logos/releases/download/v1.0/logos.tar.bz2',
     'RUN_LOGOS'           : "%s/logos.sh" % SCRIPT_DIR(),
+    'GET_CH_COUNT'        : "cat /tmp/tvh-count.logos",
     'GET_LOGO_COUNT'      : "wc -l /storage/.kodi/temp/logos_src/src_file.tmp | awk '{print $1}'",
     'GET_MISS_COUNT'      : "wc -l /tmp/miss_logo.log | awk '{print $1}'",
     'GET_TVH_STATUS'      : "%s/tvh-status.sh" % SCRIPT_DIR(),
