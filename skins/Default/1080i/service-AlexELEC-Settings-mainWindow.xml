@@ -107,10 +107,10 @@
                     <height>3</height>
                     <visible>String.IsEqual(Container(1000).ListItem.Property(listTyp), 1900)</visible>
                     <control type="image">
-                        <left>980</left>
-                        <top>-30</top>
-                        <width>250</width>
-                        <height>250</height>
+                        <left>1020</left>
+                        <top>20</top>
+                        <width>150</width>
+                        <height>150</height>
                         <texture border="0">default/logo_big.png</texture>
                     </control>
                     <control type="label">
