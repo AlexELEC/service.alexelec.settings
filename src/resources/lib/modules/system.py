@@ -31,6 +31,12 @@ class system:
     BACKUP_DESTINATION = None
     RESTORE_DIR = None
     SET_CLOCK_CMD = None
+    LOCAL_UPDATE_DIR = None
+    RUN_UPDATE = None
+    D_FULL_SET = None
+    NAND_INSTALL = None
+    NAND_REMOTE = None
+    NAND_REBOOT = None
     menu = {'1': {
         'name': 32002,
         'menuLoader': 'load_menu',
@@ -165,6 +171,52 @@ class system:
                             },
                         },
                     },
+                'update': {
+                    'order': 10,
+                    'name': 32800,
+                    'not_supported': [],
+                    'settings': {
+                        'sys_upd': {
+                            'order': 1,
+                            'name': 32801,
+                            'value': '0',
+                            'action': 'check_update',
+                            'type': 'button',
+                            'InfoText': 3281,
+                            },
+                        },
+                    },
+                'nand': {
+                    'order': 11,
+                    'name': 32820,
+                    'not_supported': [],
+                    'settings': {
+                        'full_set': {
+                            'order': 1,
+                            'name': 32821,
+                            'value': None,
+                            'action': 'initialize_nand',
+                            'type': 'bool',
+                            'InfoText': 2821,
+                            },
+                        'nand_install': {
+                            'order': 2,
+                            'name': 32822,
+                            'value': '0',
+                            'action': 'execute_nand',
+                            'type': 'button',
+                            'InfoText': 2822,
+                            },
+                        'nand_rc': {
+                            'order': 3,
+                            'name': 32823,
+                            'value': '0',
+                            'action': 'execute_rc',
+                            'type': 'button',
+                            'InfoText': 2823,
+                            },
+                        },
+                    },
                 }
 
             self.keyboard_layouts = False
@@ -182,6 +234,7 @@ class system:
             self.set_hostname()
             self.set_keyboard_layout()
             self.set_hw_clock()
+            self.initialize_nand()
             del self.is_service
             self.oe.dbg_log('system::start_service', 'exit_function', 0)
         except Exception, e:
@@ -325,12 +378,15 @@ class system:
                 self.nox_keyboard_layouts = True
 
             # Hostname
-
             value = self.oe.read_setting('system', 'hostname')
             if not value is None:
                 self.struct['ident']['settings']['hostname']['value'] = value
             else:
                 self.struct['ident']['settings']['hostname']['value'] = self.oe.DISTRIBUTION
+
+            # Nand
+            self.struct['nand']['settings']['full_set']['value'] = \
+            self.oe.get_service_option('nand', 'FULL_SET', self.D_FULL_SET).replace('"', '')
         except Exception, e:
             self.oe.dbg_log('system::load_values', 'ERROR: (' + repr(e) + ')')
 
@@ -828,3 +884,96 @@ class system:
             self.oe.dbg_log('system::wizard_set_hostname', 'exit_function', 0)
         except Exception, e:
             self.oe.dbg_log('system::wizard_set_hostname', 'ERROR: (' + repr(e) + ')')
+
+    def check_update(self, listItem=None, silent=False):
+        try:
+            self.oe.dbg_log('system::check_update', 'enter_function', 0)
+            self.oe.notify(self.oe._(32363), 'Check system updates...')
+            self.oe.set_busy(1)
+            url_update = self.oe.execute(self.RUN_UPDATE + ' check-url', 1).strip()
+
+            if url_update == 'error':
+                self.oe.set_busy(0)
+                dialog = xbmcgui.Dialog()
+                dialog.notification('Updates', 'No updates available.', xbmcgui.NOTIFICATION_INFO, 3000)
+                return
+
+            ver_current = self.oe.execute(self.RUN_UPDATE + ' ver-current', 1).strip()
+            ver_update = self.oe.execute(self.RUN_UPDATE + ' ver-update', 1).strip()
+            self.oe.set_busy(0)
+            dialog = xbmcgui.Dialog()
+            ret = dialog.yesno('Updates', ' ', 'Current version:  %s' % ver_current,
+                                               'Update  version:  %s' % ver_update)
+            if ret:
+                self.download_file = url_update
+                if hasattr(self, 'download_file'):
+                    downloaded = self.oe.download_file(self.download_file, self.LOCAL_UPDATE_DIR + self.download_file.split('/')[-1], silent)
+                    if not downloaded is None:
+                        dialog = xbmcgui.Dialog()
+                        ret = dialog.yesno('Updates', 'Reboot and Update system?')
+                        if ret:
+                            self.oe.execute('systemd-run -q ' + self.RUN_UPDATE + ' reboot', 0)
+                        else:
+                            self.oe.execute('/bin/rm -fr /storage/.update/*', 0)
+
+            self.oe.dbg_log('system::check_update', 'exit_function', 0)
+        except Exception, e:
+            self.oe.dbg_log('system::check_update', 'ERROR: (' + repr(e) + ')')
+
+    def initialize_nand(self, **kwargs):
+        try:
+            self.oe.dbg_log('system::initialize_nand', 'enter_function', 0)
+            self.oe.set_busy(1)
+            if 'listItem' in kwargs:
+                self.set_value(kwargs['listItem'])
+            options = {}
+            state = 1
+            options['FULL_SET'] = '"%s"' % self.struct['nand']['settings']['full_set']['value']
+            self.oe.set_service('nand', options, state)   
+            self.oe.set_busy(0)
+            self.oe.dbg_log('system::initialize_nand', 'exit_function', 0)
+        except Exception, e:
+            self.oe.set_busy(0)
+            self.oe.dbg_log('system::initialize_nand', 'ERROR: (%s)' % repr(e), 4)
+
+    def execute_nand(self, listItem=None):
+        try:
+            self.oe.dbg_log('system::execute_nand', 'enter_function', 0)
+            if os.path.exists(self.NAND_INSTALL):
+                dialog = xbmcgui.Dialog()
+                ret = dialog.yesno('Attention!', 'Install the system to internal memory?')
+                if ret:
+                    self.oe.notify(self.oe._(32363), 'Installation...')
+                    self.oe.set_busy(1)
+                    message = self.oe.execute(self.NAND_INSTALL, 1).strip()
+                    self.oe.set_busy(0)
+                    if message == 'Done! Install AlexELEC completed.':
+                        dialog = xbmcgui.Dialog()
+                        ret = dialog.yesno('Installation completed', 'Reboot system now?')
+                        if ret:
+                            self.oe.execute(self.NAND_REBOOT, 0)
+                    else:
+                        dialog = xbmcgui.Dialog()
+                        dialog.notification('Install',
+                                        '%s' % message,
+                                        xbmcgui.NOTIFICATION_INFO, 3000)
+        except Exception, e:
+            self.oe.dbg_log('system::execute_nand', 'ERROR: (' + repr(e) + ')')
+
+    def execute_rc(self, listItem=None):
+        try:
+            self.oe.dbg_log('system::execute_rc', 'enter_function', 0)
+            if os.path.exists(self.NAND_REMOTE):
+                dialog = xbmcgui.Dialog()
+                ret = dialog.yesno('Attention!', 'Reconfigure remote control?')
+                if ret:
+                    self.oe.notify(self.oe._(32363), 'Reconfigure...')
+                    self.oe.set_busy(1)
+                    message = self.oe.execute(self.NAND_REMOTE, 1).strip()
+                    self.oe.set_busy(0)
+                    dialog = xbmcgui.Dialog()
+                    dialog.notification('IR remote',
+                                        '%s' % message,
+                                        xbmcgui.NOTIFICATION_INFO, 3000)
+        except Exception, e:
+            self.oe.dbg_log('system::execute_rc', 'ERROR: (' + repr(e) + ')')

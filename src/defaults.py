@@ -126,6 +126,15 @@ services = {
     'D_SSH_DISABLE_PW_AUTH': '0',
     'AVAHI_DAEMON': '/usr/sbin/avahi-daemon',
     'CRON_DAEMON': '/sbin/crond',
+    # TVIP
+    'D_TVIP_ACT_PATCH'  : '0',
+    'D_TVIP_M3U'        : '',
+    'D_TVIP_UPDATE'     : '0',
+    'D_TVIP_TVH'        : '0',
+    'D_TVIP_LAST'       : '0',
+    'D_TVIP_RCTIME'     : '4',
+    'D_TVIP_DEBUG'      : '0',
+    'TVIP_DAEMON'       : '/home/tvip/tvip',
     }
 
 system = {
@@ -145,6 +154,14 @@ system = {
         ],
     'BACKUP_DESTINATION': '/storage/backup/',
     'RESTORE_DIR': '/storage/.restore/',
+    # UPDATE SYSTEM
+    'LOCAL_UPDATE_DIR'  : '/storage/.update/',
+    'RUN_UPDATE'        : "%s/update.sh" % SCRIPT_DIR(),
+    # INSTALL TO NAND   
+    'D_FULL_SET'        : '1',
+    'NAND_INSTALL'      : "%s/installnand.sh" % SCRIPT_DIR(),
+    'NAND_REMOTE'       : "%s/installrc.sh" % SCRIPT_DIR(),
+    'NAND_REBOOT'       : "systemd-run %s/installfull.sh" % SCRIPT_DIR(),
     }
 
 about = {'ENABLED': True}

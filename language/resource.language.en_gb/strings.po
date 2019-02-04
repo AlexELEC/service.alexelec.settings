@@ -1161,3 +1161,109 @@ msgstr ""
 msgctxt "#4356"
 msgid "Create logos channels."
 msgstr ""
+
+########## UPDATE #########
+
+msgctxt "#32800"
+msgid "Updates"
+msgstr ""
+
+msgctxt "#32801"
+msgid "Check for Updates"
+msgstr ""
+
+msgctxt "#3281"
+msgid "Check and install the @DISTRONAME@ system update."
+msgstr ""
+
+########## NAND #########
+
+msgctxt "#32820"
+msgid "Installing the system in NAND"
+msgstr ""
+
+msgctxt "#32821"
+msgid "Save settings"
+msgstr ""
+
+msgctxt "#2821"
+msgid "Transfer all settings to a new system."
+msgstr ""
+
+msgctxt "#32822"
+msgid "Install ..."
+msgstr ""
+
+msgctxt "#2822"
+msgid "This will erase BOOT, SYSTEM, DATA and DTB on your device."
+msgstr ""
+
+msgctxt "#32823"
+msgid "IR remote ..."
+msgstr ""
+
+msgctxt "#2823"
+msgid "Copy the settings of the remote control from Android."
+msgstr ""
+
+########## TVIP #########
+
+msgctxt "#32860"
+msgid "TVIP configuration"
+msgstr ""
+
+msgctxt "#32861"
+msgid "Enable playlist"
+msgstr ""
+
+msgctxt "#2861"
+msgid "Use the specified channel source (m3u-playlist)."
+msgstr ""
+
+msgctxt "#32862"
+msgid "M3U file:"
+msgstr ""
+
+msgctxt "#2862"
+msgid "Select *.m3u file."
+msgstr ""
+
+msgctxt "#32863"
+msgid "Update playlist"
+msgstr ""
+
+msgctxt "#2863"
+msgid "Update Torrent-TV playlist before TVIP start."
+msgstr ""
+
+msgctxt "#32864"
+msgid "First channel"
+msgstr ""
+
+msgctxt "#2864"
+msgid "Start TVIP from the first channel."
+msgstr ""
+
+msgctxt "#32865"
+msgid "Delay RC start:"
+msgstr ""
+
+msgctxt "#2865"
+msgid "Delay before starting the configuration of the remote control."
+msgstr ""
+
+msgctxt "#32866"
+msgid "Debug"
+msgstr ""
+
+msgctxt "#2866"
+msgid "Log of work of TVIP."
+msgstr ""
+
+msgctxt "#32867"
+msgid "TVH channels"
+msgstr ""
+
+msgctxt "#2867"
+msgid "Add Tvheadend channels to playlist."
+msgstr ""

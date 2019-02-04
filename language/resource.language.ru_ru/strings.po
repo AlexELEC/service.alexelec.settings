@@ -1246,3 +1246,109 @@ msgstr "Создать логотипы"
 msgctxt "#4356"
 msgid "Create logos channels."
 msgstr "Будут загружены и сконвертированы логотипы каналов. Также, будут созданы недостающие иконки каналов."
+
+########## UPDATE #########
+
+msgctxt "#32800"
+msgid "Updates"
+msgstr "Обновление системы"
+
+msgctxt "#32801"
+msgid "Check for Updates"
+msgstr "Проверить обновления"
+
+msgctxt "#3281"
+msgid "Check and install the @DISTRONAME@ system update."
+msgstr "Проверить и установить (если доступно) обновление системы @DISTRONAME@."
+
+########## NAND #########
+
+msgctxt "#32820"
+msgid "Installing the system in NAND"
+msgstr "Установка системы в NAND"
+
+msgctxt "#32821"
+msgid "Save settings"
+msgstr "Сохранить настройки"
+
+msgctxt "#2821"
+msgid "Transfer all settings to a new system."
+msgstr "Перенести все настройки в новую систему."
+
+msgctxt "#32822"
+msgid "Install ..."
+msgstr "Установить ..."
+
+msgctxt "#2822"
+msgid "This will erase BOOT, SYSTEM, DATA and DTB on your device."
+msgstr "Это приведет к стиранию всех данных на внутренней памяти вашего устройства и установке AlexELEC вместо Android."
+
+msgctxt "#32823"
+msgid "IR remote ..."
+msgstr "Пульт ДУ ..."
+
+msgctxt "#2823"
+msgid "Copy the settings of the remote control from Android."
+msgstr "Копирование из Android настроек пульта ДУ (remote.conf)."
+
+########## TVIP #########
+
+msgctxt "#32860"
+msgid "TVIP configuration"
+msgstr "Настройки TVIP"
+
+msgctxt "#32861"
+msgid "Enable playlist"
+msgstr "Использовать плейлист"
+
+msgctxt "#2861"
+msgid "Use the specified channel source (m3u-playlist)."
+msgstr "Использовать определенный плейлист (файл *.m3u)."
+
+msgctxt "#32862"
+msgid "M3U file:"
+msgstr "M3U файл:"
+
+msgctxt "#2862"
+msgid "Select *.m3u file."
+msgstr "Выберите *.m3u файл."
+
+msgctxt "#32863"
+msgid "Update playlist"
+msgstr "Обновлять плейлист"
+
+msgctxt "#2863"
+msgid "Update Torrent-TV playlist before TVIP start."
+msgstr "Обновлять Торрент-ТВ плейлист перед стартом TVIP."
+
+msgctxt "#32864"
+msgid "First channel"
+msgstr "Канал #1"
+
+msgctxt "#2864"
+msgid "Start TVIP from the first channel."
+msgstr "Начинать показ с первого канала в списке."
+
+msgctxt "#32865"
+msgid "Delay RC start:"
+msgstr "Задержка ДУ:"
+
+msgctxt "#2865"
+msgid "Delay before starting the configuration of the remote control."
+msgstr "Задержка перед запуском настройки пульта ДУ для TVIP (секунд)."
+
+msgctxt "#32866"
+msgid "Debug"
+msgstr "Отладка"
+
+msgctxt "#2866"
+msgid "Log of work of TVIP."
+msgstr "Вести журнал работы TVIP (/var/log/tvip.log)."
+
+msgctxt "#32867"
+msgid "TVH channels"
+msgstr "TVH каналы"
+
+msgctxt "#2867"
+msgid "Add Tvheadend channels to playlist."
+msgstr "Добавлять каналы Tvheadend в выбранный плейлист."

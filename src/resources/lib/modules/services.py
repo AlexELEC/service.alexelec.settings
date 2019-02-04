@@ -34,6 +34,14 @@ class services:
     OPT_SSH_NOPASSWD = None
     AVAHI_DAEMON = None
     CRON_DAEMON = None
+    D_TVIP_M3U = None
+    D_TVIP_LAST = None
+    D_TVIP_ACT_PATCH = None
+    D_TVIP_UPDATE = None
+    D_TVIP_TVH = None
+    D_TVIP_RCTIME = None
+    D_TVIP_DEBUG = None
+    TVIP_DAEMON = None
     menu = {'4': {
         'name': 32001,
         'menuLoader': 'load_menu',
@@ -273,6 +281,74 @@ class services:
                             },
                         },
                     },
+                'tvip': {
+                    'order': 8,
+                    'name': 32860,
+                    'not_supported': [],
+                    'settings': {
+                        'tvip_act_patch': {
+                            'order': 1,
+                            'name': 32861,
+                            'value': '0',
+                            'action': 'initialize_tvip',
+                            'type': 'bool',
+                            'InfoText': 2861,
+                            },
+                        'tvip_m3u': {
+                            'order': 2,
+                            'name': 32862,
+                            'value': '',
+                            'action': 'initialize_tvip',
+                            'type': 'file',
+                            'parent': {
+                                'entry': 'tvip_act_patch',
+                                'value': ['1']
+                                },
+                            'InfoText': 2862,
+                            },
+                        'tvip_update': {
+                            'order': 3,
+                            'name': 32863,
+                            'value': '0',
+                            'action': 'initialize_tvip',
+                            'type': 'bool',
+                            'InfoText': 2863,
+                            },
+                        'tvip_tvh': {
+                            'order': 4,
+                            'name': 32867,
+                            'value': '0',
+                            'action': 'initialize_tvip',
+                            'type': 'bool',
+                            'InfoText': 2867,
+                            },
+                        'tvip_last': {
+                            'order': 5,
+                            'name': 32864,
+                            'value': '0',
+                            'action': 'initialize_tvip',
+                            'type': 'bool',
+                            'InfoText': 2864,
+                            },
+                        'tvip_rctime': {
+                            'order': 6,
+                            'name': 32865,
+                            'value': '4',
+                            'values': ['3', '4', '5', '6', '7', '8', '9', '10'],
+                            'action': 'initialize_tvip',
+                            'type': 'multivalue',
+                            'InfoText': 2865,
+                            },
+                        'tvip_debug': {
+                            'order': 7,
+                            'name': 32866,
+                            'value': '0',
+                            'action': 'initialize_tvip',
+                            'type': 'bool',
+                            'InfoText': 2866,
+                            },
+                        },
+                    },
                 }
 
             self.oe = oeMain
@@ -290,6 +366,7 @@ class services:
             self.initialize_cron(service=1)
             self.init_bluetooth(service=1)
             self.initialize_eventlircd(service=1)
+            self.initialize_tvip()
             self.oe.dbg_log('services::start_service', 'exit_function', 0)
         except Exception, e:
             self.oe.dbg_log('services::start_service', 'ERROR: (%s)' % repr(e))
@@ -399,6 +476,31 @@ class services:
 
             # LIRCD
             self.struct['eventlircd']['settings']['eventlircd_autostart']['value'] = self.oe.get_service_state('eventlircd')
+
+            # TVIP
+            if not os.path.isfile(self.TVIP_DAEMON):
+                self.struct['tvip']['hidden'] = 'true'
+            else:
+                self.struct['tvip']['settings']['tvip_act_patch']['value'] = \
+                self.oe.get_service_option('tvip', 'TVIP_ACT_PATCH', self.D_TVIP_ACT_PATCH).replace('"', '')
+
+                self.struct['tvip']['settings']['tvip_m3u']['value'] = \
+                self.oe.get_service_option('tvip', 'TVIP_M3U', self.D_TVIP_M3U).replace('"', '')
+
+                self.struct['tvip']['settings']['tvip_update']['value'] = \
+                self.oe.get_service_option('tvip', 'TVIP_UPDATE', self.D_TVIP_UPDATE).replace('"', '')
+
+                self.struct['tvip']['settings']['tvip_tvh']['value'] = \
+                self.oe.get_service_option('tvip', 'TVIP_TVH', self.D_TVIP_TVH).replace('"', '')
+
+                self.struct['tvip']['settings']['tvip_last']['value'] = \
+                self.oe.get_service_option('tvip', 'TVIP_LAST', self.D_TVIP_LAST).replace('"', '')
+
+                self.struct['tvip']['settings']['tvip_rctime']['value'] = \
+                self.oe.get_service_option('tvip', 'TVIP_RCTIME', self.D_TVIP_RCTIME).replace('"', '')
+
+                self.struct['tvip']['settings']['tvip_debug']['value'] = \
+                self.oe.get_service_option('tvip', 'TVIP_DEBUG', self.D_TVIP_DEBUG).replace('"', '')
 
             self.oe.dbg_log('services::load_values', 'exit_function', 0)
         except Exception, e:
@@ -686,3 +788,27 @@ class services:
             return SSHchange
         except Exception, e:
             self.oe.dbg_log('system::do_sshpasswd', 'ERROR: (' + repr(e) + ')')
+
+    def initialize_tvip(self, **kwargs):
+        try:
+            self.oe.dbg_log('services::initialize_tvip', 'enter_function', 0)
+            self.oe.set_busy(1)
+            if 'listItem' in kwargs:
+                self.set_value(kwargs['listItem'])
+            options = {}
+            state = 0
+            if not 'hidden' in self.struct['tvip']:
+                state = 1
+                options['TVIP_ACT_PATCH'] = '"%s"' % self.struct['tvip']['settings']['tvip_act_patch']['value']
+                options['TVIP_M3U'] = '"%s"' % self.struct['tvip']['settings']['tvip_m3u']['value']
+                options['TVIP_UPDATE'] = '"%s"' % self.struct['tvip']['settings']['tvip_update']['value']
+                options['TVIP_TVH'] = '"%s"' % self.struct['tvip']['settings']['tvip_tvh']['value']
+                options['TVIP_LAST'] = '"%s"' % self.struct['tvip']['settings']['tvip_last']['value']
+                options['TVIP_RCTIME'] = '"%s"' % self.struct['tvip']['settings']['tvip_rctime']['value']
+                options['TVIP_DEBUG'] = '"%s"' % self.struct['tvip']['settings']['tvip_debug']['value']
+            self.oe.set_service('tvip', options, state)   
+            self.oe.set_busy(0)
+            self.oe.dbg_log('services::initialize_tvip', 'exit_function', 0)
+        except Exception, e:
+            self.oe.set_busy(0)
+            self.oe.dbg_log('services::initialize_tvip', 'ERROR: (%s)' % repr(e), 4)
