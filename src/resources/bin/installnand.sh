@@ -15,7 +15,7 @@ else
   exit 1
 fi
 
-if [ "$ALEXELEC_ARCH" == "S905.arm" -o "$ALEXELEC_ARCH" == "S912.arm" ] ; then
+if [ "$ALEXELEC_ARCH" == "S9XX.arm" ] ; then
   if [ ! -e /dev/boot -o ! -e /dev/system -o ! -e /dev/data -o ! -e /dev/dtb ]; then
     echo "Abort. BOOT, SYTEM, DATA or DTB partitions is missing."
     exit 1
@@ -52,7 +52,7 @@ install_to_nand() {
     cp "$IMAGE_SYSTEM" /tmp/system && sync
     umount /tmp/system
 
-    if [ "$ALEXELEC_ARCH" == "S905.arm" -o "$ALEXELEC_ARCH" == "S912.arm" ]; then
+    if [ "$ALEXELEC_ARCH" == "S9XX.arm" ]; then
       if [ -f "$IMAGE_DTB" ]; then
         dd if=/dev/zero of=/dev/dtb bs=256k count=1 &>/dev/null
         dd if="$IMAGE_DTB" of=/dev/dtb bs=256k &>/dev/null
