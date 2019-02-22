@@ -25,7 +25,8 @@ fi
 IMAGE_KERNEL="/flash/kernel.img"
 IMAGE_SYSTEM="/flash/SYSTEM"
 IMAGE_DTB="/flash/dtb.img"
-IMAGE_LOGO="/usr/share/bootloader/logo.img"
+IMAGE_LOGO_EXT="/flash/logo.img"
+IMAGE_LOGO_INT="/usr/share/bootloader/logo.img"
 
 install_to_nand() {
   if [ -f "$IMAGE_KERNEL" -a -f "$IMAGE_SYSTEM" ]; then
@@ -52,12 +53,19 @@ install_to_nand() {
     cp "$IMAGE_SYSTEM" /tmp/system && sync
     umount /tmp/system
 
-    if [ "$ALEXELEC_ARCH" == "S9XX.arm" ]; then
-      if [ -f "$IMAGE_DTB" ]; then
-        dd if=/dev/zero of=/dev/dtb bs=256k count=1 &>/dev/null
-        dd if="$IMAGE_DTB" of=/dev/dtb bs=256k &>/dev/null
+    # Copying device-tree
+    if [ -f "$IMAGE_DTB" -a "$ALEXELEC_ARCH" == "S9XX.arm" ]; then
+      dd if=/dev/zero of=/dev/dtb bs=256k count=1 &>/dev/null
+      dd if="$IMAGE_DTB" of=/dev/dtb bs=256k &>/dev/null
+    fi
+
+    # Copying boot logo
+    if [ -e /dev/logo ]; then
+      if [ -f "$IMAGE_LOGO_EXT" ]; then
+        dd if="$IMAGE_LOGO_EXT" of=/dev/logo bs=64k status=none &>/dev/null
+      elif [ -f "$IMAGE_LOGO_INT" ]; then
+        dd if="$IMAGE_LOGO_INT" of=/dev/logo bs=64k status=none &>/dev/null
       fi
-      [ -f "$IMAGE_LOGO" ] && dd if="$IMAGE_LOGO" of=/dev/logo bs=64k status=none &>/dev/null
     fi
 
     # Formatting DATA partition
