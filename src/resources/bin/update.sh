@@ -29,11 +29,6 @@ case "$1" in
     ;;
   "reboot")
       systemctl stop kodi
-      if [ -f "/storage/.cache/services/acestream.conf" ]; then
-        systemctl stop acestream
-        mv -f /storage/.cache/services/acestream.conf /storage/.cache/services/acestream.disable
-        rm -rf /storage/.config/acestream
-      fi
       systemctl reboot
     ;;
 esac
