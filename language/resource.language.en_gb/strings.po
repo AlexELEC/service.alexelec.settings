@@ -1275,3 +1275,11 @@ msgstr ""
 msgctxt "#2868"
 msgid "Set Tvheadend IP-address (empty for local IP)."
 msgstr ""
+
+msgctxt "#32869"
+msgid "TVH EPG"
+msgstr ""
+
+msgctxt "#2869"
+msgid "Add Tvheadend EPG to TVIP."
+msgstr ""

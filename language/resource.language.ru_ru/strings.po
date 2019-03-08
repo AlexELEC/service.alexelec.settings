@@ -1360,3 +1360,11 @@ msgstr "TVH IP-адрес"
 msgctxt "#2868"
 msgid "Set Tvheadend IP-address (empty for local IP)."
 msgstr "Указать IP-адрес сервера Tvheadend (локальный IP-адрес, если пусто)."
+
+msgctxt "#32869"
+msgid "TVH EPG"
+msgstr "TVH EPG"
+
+msgctxt "#2869"
+msgid "Add Tvheadend EPG to TVIP."
+msgstr "Добавлять программу (EPG) из сервера Tvheadend в TVIP."

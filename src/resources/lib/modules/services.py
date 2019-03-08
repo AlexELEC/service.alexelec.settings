@@ -40,6 +40,7 @@ class services:
     D_TVIP_UPDATE = None
     D_TVIP_TVH = None
     D_TVIP_TVHIP = None
+    D_TVIP_TVHEPG = None
     D_TVIP_RCTIME = None
     D_TVIP_DEBUG = None
     TVIP_DAEMON = None
@@ -335,8 +336,20 @@ class services:
                                 },
                             'InfoText': 2868,
                             },
-                        'tvip_last': {
+                        'tvip_tvhepg': {
                             'order': 6,
+                            'name': 32869,
+                            'value': '0',
+                            'action': 'initialize_tvip',
+                            'type': 'bool',
+                            'parent': {
+                                'entry': 'tvip_tvh',
+                                'value': ['1']
+                                },
+                            'InfoText': 2869,
+                            },
+                        'tvip_last': {
+                            'order': 7,
                             'name': 32864,
                             'value': '0',
                             'action': 'initialize_tvip',
@@ -344,7 +357,7 @@ class services:
                             'InfoText': 2864,
                             },
                         'tvip_rctime': {
-                            'order': 7,
+                            'order': 8,
                             'name': 32865,
                             'value': '4',
                             'values': ['3', '4', '5', '6', '7', '8', '9', '10'],
@@ -353,7 +366,7 @@ class services:
                             'InfoText': 2865,
                             },
                         'tvip_debug': {
-                            'order': 8,
+                            'order': 9,
                             'name': 32866,
                             'value': '0',
                             'action': 'initialize_tvip',
@@ -508,6 +521,9 @@ class services:
 
                 self.struct['tvip']['settings']['tvip_tvhip']['value'] = \
                 self.oe.get_service_option('tvip', 'TVIP_TVHIP', self.D_TVIP_TVHIP).replace('"', '')
+
+                self.struct['tvip']['settings']['tvip_tvhepg']['value'] = \
+                self.oe.get_service_option('tvip', 'TVIP_TVHEPG', self.D_TVIP_TVHEPG).replace('"', '')
 
                 self.struct['tvip']['settings']['tvip_last']['value'] = \
                 self.oe.get_service_option('tvip', 'TVIP_LAST', self.D_TVIP_LAST).replace('"', '')
@@ -820,6 +836,7 @@ class services:
                 options['TVIP_UPDATE'] = '"%s"' % self.struct['tvip']['settings']['tvip_update']['value']
                 options['TVIP_TVH'] = '"%s"' % self.struct['tvip']['settings']['tvip_tvh']['value']
                 options['TVIP_TVHIP'] = '"%s"' % self.struct['tvip']['settings']['tvip_tvhip']['value']
+                options['TVIP_TVHEPG'] = '"%s"' % self.struct['tvip']['settings']['tvip_tvhepg']['value']
                 options['TVIP_LAST'] = '"%s"' % self.struct['tvip']['settings']['tvip_last']['value']
                 options['TVIP_RCTIME'] = '"%s"' % self.struct['tvip']['settings']['tvip_rctime']['value']
                 options['TVIP_DEBUG'] = '"%s"' % self.struct['tvip']['settings']['tvip_debug']['value']
