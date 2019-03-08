@@ -1355,8 +1355,8 @@ msgstr "Добавлять каналы Tvheadend в выбранный плей
 
 msgctxt "#32868"
 msgid "TVH IP-address"
-msgid "TVH IP-адрес"
+msgstr "TVH IP-адрес"
 
 msgctxt "#2868"
 msgid "Set Tvheadend IP-address (empty for local IP)."
-msgstr "Указать IP-адрес сервера Tvheadend. Если пусто - локальный адрес."
+msgstr "Указать IP-адрес сервера Tvheadend (локальный IP-адрес, если пусто)."
