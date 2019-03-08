@@ -1267,3 +1267,11 @@ msgstr ""
 msgctxt "#2867"
 msgid "Add Tvheadend channels to playlist."
 msgstr ""
+
+msgctxt "#32868"
+msgid "TVH IP-address"
+msgstr ""
+
+msgctxt "#2868"
+msgid "Set Tvheadend IP-address (empty for local IP)."
+msgstr ""

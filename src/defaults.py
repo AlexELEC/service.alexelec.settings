@@ -131,6 +131,7 @@ services = {
     'D_TVIP_M3U'        : '',
     'D_TVIP_UPDATE'     : '0',
     'D_TVIP_TVH'        : '0',
+    'D_TVIP_TVHIP'      : '',
     'D_TVIP_LAST'       : '0',
     'D_TVIP_RCTIME'     : '4',
     'D_TVIP_DEBUG'      : '0',
