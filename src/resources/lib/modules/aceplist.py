@@ -188,7 +188,7 @@ class aceplist:
                             'order': 5,
                             'name': 34066,
                             'value': 'Trash-TTV',
-                            'values': ['Trash-All', 'Trash-Ace', 'Trash-TTV', 'Site-TTV'],
+                            'values': ['Trash-All', 'Trash-Ace', 'Trash-TTV', 'Site-TTV', 'Search-Ace'],
                             'action': 'initialize_acerun',
                             'type': 'multivalue',
                             'InfoText': 3466,
