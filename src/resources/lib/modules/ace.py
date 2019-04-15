@@ -16,6 +16,7 @@ class ace:
     D_TORRSRV_PORT = None
     D_TORRSRV_DEBUG = None
     TORRSRV_GET_SRC = None
+    PAZL_GET_SRC = None
 
     menu = {'92': {
         'name': 34000,
@@ -94,6 +95,21 @@ class ace:
                             },
                         },
                     },
+                'ptv': {
+                    'order': 3,
+                    'name': 34090,
+                    'not_supported': [],
+                    'settings': {
+                        'enable_ptv': {
+                            'order': 1,
+                            'name': 34011,
+                            'value': None,
+                            'action': 'initialize_ptv',
+                            'type': 'bool',
+                            'InfoText': 3491,
+                            },
+                        },
+                    },
             }
 
             self.oe = oeMain
@@ -107,6 +123,7 @@ class ace:
             self.load_values()
             self.initialize_acestream()
             self.initialize_torrserver()
+            self.initialize_ptv()
             self.oe.dbg_log('ace::start_service', 'exit_function', 0)
         except Exception, e:
             self.oe.dbg_log('ace::start_service', 'ERROR: (%s)' % repr(e))
@@ -162,6 +179,10 @@ class ace:
 
             self.struct['torrserver']['settings']['torrsrv_debug']['value'] = \
             self.oe.get_service_option('torrserver', 'TORRSRV_DEBUG', self.D_TORRSRV_DEBUG).replace('"', '')
+
+            #PAZL TV
+            self.struct['ptv']['settings']['enable_ptv']['value'] = \
+                    self.oe.get_service_state('ptv')
 
             self.oe.dbg_log('ace::load_values', 'exit_function', 0)
         except Exception, e:
@@ -269,6 +290,56 @@ class ace:
             return 'ERROR'
         except Exception, e:
             self.oe.dbg_log('ace::get_torrsrv_source', 'ERROR: (%s)' % repr(e), 4)
+
+    def initialize_ptv(self, **kwargs):
+        try:
+            self.oe.dbg_log('ace::initialize_ptv', 'enter_function', 0)
+            self.oe.set_busy(1)
+            if 'listItem' in kwargs:
+                self.set_value(kwargs['listItem'])
+            options = {}
+            state = 0
+            if self.struct['ptv']['settings']['enable_ptv']['value'] == '1':
+
+                if not os.path.exists('/storage/.config/ptv3/server.py'):
+                    ptv_status = self.get_ptv_source()
+                    if ptv_status == 'OK':
+                        self.oe.notify(self.oe._(32363), 'Run Pazl IPTV aggregator...')
+                    else:
+                        self.struct['ptv']['settings']['enable_ptv']['value'] = '0'
+                        self.oe.set_busy(0)
+                        xbmcDialog = xbmcgui.Dialog()
+                        answer = xbmcDialog.ok('Install Pazl-TV',
+                            'Error: The program is not installed, try again.')
+                        return
+
+                state = 1
+
+            self.oe.set_service('ptv', options, state)
+            self.oe.set_busy(0)
+            self.oe.dbg_log('ace::initialize_ptv', 'exit_function', 0)
+        except Exception, e:
+            self.oe.set_busy(0)
+            self.oe.dbg_log('ace::initialize_ptv', 'ERROR: (%s)' % repr(e), 4)
+
+    def get_ptv_source(self, listItem=None, silent=False):
+        try:
+            self.oe.dbg_log('ace::get_ptv_source', 'enter_function', 0)
+            ptv_url = self.oe.execute(self.PAZL_GET_SRC + ' url', 1).strip()
+            self.download_file = ptv_url
+            self.oe.set_busy(0)
+            if hasattr(self, 'download_file'):
+                downloaded = self.oe.download_file(self.download_file, self.oe.TEMP + self.download_file.split('/')[-1], silent)
+                if not downloaded is None:
+                    self.oe.notify(self.oe._(32363), 'Install Pazl IPTV aggregator...')
+                    self.oe.set_busy(1)
+                    self.oe.execute(self.PAZL_GET_SRC + ' install', 0)
+                    self.oe.dbg_log('ace::get_ptv_source', 'exit_function', 0)
+                    return 'OK'
+            self.oe.dbg_log('ace::get_ptv_source', 'exit_function', 0)
+            return 'ERROR'
+        except Exception, e:
+            self.oe.dbg_log('ace::get_ptv_source', 'ERROR: (%s)' % repr(e), 4)
 
     def exit(self):
         try:

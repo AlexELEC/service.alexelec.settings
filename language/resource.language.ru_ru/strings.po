@@ -1069,6 +1069,16 @@ msgctxt "#3483"
 msgid "Enable debugging TorrServer."
 msgstr "Включить ведение журнала работы TorrServer."
 
+########## PAZL-TV #########
+
+msgctxt "#34090"
+msgid "Pazl IPTV aggregator"
+msgstr "Пазл-ТВ севис"
+
+msgctxt "#3491"
+msgid "Pazl: IPTV proxy service and channel aggregator."
+msgstr "Пазл-ТВ: прокси сервис и агрегатор IPTV каналов."
+
 ########## TTV-LIST #########
 
 msgctxt "#34050"

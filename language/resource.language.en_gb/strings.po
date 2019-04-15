@@ -984,6 +984,16 @@ msgctxt "#3483"
 msgid "Enable debugging TorrServer."
 msgstr ""
 
+########## PAZL-TV #########
+
+msgctxt "#34090"
+msgid "Pazl IPTV aggregator"
+msgstr ""
+
+msgctxt "#3491"
+msgid "Pazl: IPTV proxy service and channel aggregator."
+msgstr ""
+
 ########## TTV-LIST #########
 
 msgctxt "#34050"

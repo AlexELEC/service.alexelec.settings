@@ -51,6 +51,8 @@ ace = {
     'D_TORRSRV_PORT'  : '8090',
     'D_TORRSRV_DEBUG' : '0',
     'TORRSRV_GET_SRC' : "%s/torrsrv-get.sh" % SCRIPT_DIR(),
+    #PAZL TV
+    'PAZL_GET_SRC'    : "%s/pazl-get.sh" % SCRIPT_DIR(),
     }
 
 aceplist = {
@@ -181,6 +183,7 @@ _services = {
     'iptables': ['iptables.service'],
     'acestream': ['acestream.service'],
     'torrserver': ['torrserver.service'],
+    'pazl': ['pazl.service'],
     'oscam': ['oscam.service'],
     'tvheadend': ['tvheadend.service'],
     }
