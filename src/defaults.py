@@ -183,7 +183,7 @@ _services = {
     'iptables': ['iptables.service'],
     'acestream': ['acestream.service'],
     'torrserver': ['torrserver.service'],
-    'pazl': ['pazl.service'],
+    'ptv': ['ptv.service'],
     'oscam': ['oscam.service'],
     'tvheadend': ['tvheadend.service'],
     }
