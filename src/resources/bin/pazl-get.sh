@@ -29,6 +29,15 @@ UPD_VER=`curl -s "$URL_LAST" | sed 's|.*tag\/||; s|">redirected.*||')`
       tar -jxf $TEMP_DIR/ptv-$UPD_VER.tar.bz2 -C $PTV_DIR
       mkdir -p $PTV_DIR/user
       rm -f $TEMP_DIR/ptv-$UPD_VER.tar.bz2
+
+# unpack
+  elif [ "$1" == "new" ] ; then
+      CURRENT_VER=`cat $PTV_DIR/latest`
+      if [ "$CURRENT_VER" != "$UPD_VER" ]; then
+        echo "$UPD_VER"
+      else
+        echo "NOT UPDATE"
+      fi
   fi
 
 exit 0

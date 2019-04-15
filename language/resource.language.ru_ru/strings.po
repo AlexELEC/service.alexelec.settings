@@ -1079,6 +1079,14 @@ msgctxt "#3491"
 msgid "Pazl: IPTV proxy service and channel aggregator."
 msgstr "Пазл-ТВ: прокси сервис и агрегатор IPTV каналов."
 
+msgctxt "#34092"
+msgid "Update service"
+msgstr "Обновить"
+
+msgctxt "#3492"
+msgid "Check and install new version."
+msgstr "Проверить и установить (если доступно) новую версию."
+
 ########## TTV-LIST #########
 
 msgctxt "#34050"

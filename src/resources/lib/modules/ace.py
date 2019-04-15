@@ -108,6 +108,18 @@ class ace:
                             'type': 'bool',
                             'InfoText': 3491,
                             },
+                        'upd_ptv': {
+                            'order': 2,
+                            'name': 34092,
+                            'value': '0',
+                            'action': 'update_ptv',
+                            'type': 'button',
+                            'parent': {
+                                'entry': 'enable_ptv',
+                                'value': ['1']
+                                },
+                            'InfoText': 3492,
+                            },
                         },
                     },
             }
@@ -334,12 +346,40 @@ class ace:
                     self.oe.notify(self.oe._(32363), 'Install Pazl IPTV aggregator...')
                     self.oe.set_busy(1)
                     self.oe.execute(self.PAZL_GET_SRC + ' install', 0)
+                    self.oe.set_busy(0)
                     self.oe.dbg_log('ace::get_ptv_source', 'exit_function', 0)
                     return 'OK'
             self.oe.dbg_log('ace::get_ptv_source', 'exit_function', 0)
             return 'ERROR'
         except Exception, e:
             self.oe.dbg_log('ace::get_ptv_source', 'ERROR: (%s)' % repr(e), 4)
+
+    def update_ptv(self, listItem=None):
+        try:
+            self.oe.dbg_log('ace::update_ptv', 'enter_function', 0)
+            if os.path.exists('/storage/.config/ptv3/latest'):
+                self.oe.notify(self.oe._(32363), 'Check new version...')
+                self.oe.set_busy(1)
+                message = self.oe.execute(self.PAZL_GET_SRC + ' new', 1).strip()
+                self.oe.set_busy(0)
+                if not message == 'NOT UPDATE':
+                    dialog = xbmcgui.Dialog()
+                    ret = dialog.yesno('Update Pazl-TV?', 'New version: %s' % message)
+                    if ret:
+                        self.oe.set_busy(1)
+                        self.oe.execute('systemctl stop ptv.service', 0)
+                        ptv_status = self.get_ptv_source()
+                        self.oe.set_busy(0)
+                        if ptv_status == 'OK':
+                            self.oe.notify(self.oe._(32363), 'Run Pazl-TV version: %s ...' % message)
+                        else:
+                            self.oe.notify(self.oe._(32363), 'Updates is not installed, try again.')
+                        self.oe.execute('systemctl start ptv.service', 0)
+                else:
+                    self.oe.notify(self.oe._(32363), 'No updates available.')
+
+        except Exception, e:
+            self.oe.dbg_log('ace::update_ptv', 'ERROR: (' + repr(e) + ')')
 
     def exit(self):
         try:
