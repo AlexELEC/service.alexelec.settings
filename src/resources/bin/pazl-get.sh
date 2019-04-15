@@ -27,6 +27,7 @@ UPD_VER=`curl -s "$URL_LAST" | sed 's|.*tag\/||; s|">redirected.*||')`
       rm -fR $PTV_DIR
       mkdir -p $PTV_DIR
       tar -jxf $TEMP_DIR/ptv-$UPD_VER.tar.bz2 -C $PTV_DIR
+      mkdir -p $PTV_DIR/user
       rm -f $TEMP_DIR/ptv-$UPD_VER.tar.bz2
   fi
 
