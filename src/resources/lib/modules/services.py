@@ -44,6 +44,8 @@ class services:
     D_TVIP_RCTIME = None
     D_TVIP_DEBUG = None
     TVIP_DAEMON = None
+    HBR_GET_SRC = None
+
     menu = {'4': {
         'name': 32001,
         'menuLoader': 'load_menu',
@@ -375,6 +377,21 @@ class services:
                             },
                         },
                     },
+                'homebridge': {
+                    'order': 9,
+                    'name': 32890,
+                    'not_supported': [],
+                    'settings': {
+                        'enable_homebridge': {
+                            'order': 1,
+                            'name': 32891,
+                            'value': None,
+                            'action': 'initialize_homebridge',
+                            'type': 'bool',
+                            'InfoText': 2891,
+                            },
+                        },
+                    },
                 }
 
             self.oe = oeMain
@@ -393,6 +410,7 @@ class services:
             self.init_bluetooth(service=1)
             self.initialize_eventlircd(service=1)
             self.initialize_tvip()
+            self.initialize_homebridge()
             self.oe.dbg_log('services::start_service', 'exit_function', 0)
         except Exception, e:
             self.oe.dbg_log('services::start_service', 'ERROR: (%s)' % repr(e))
@@ -534,6 +552,10 @@ class services:
                 self.struct['tvip']['settings']['tvip_debug']['value'] = \
                 self.oe.get_service_option('tvip', 'TVIP_DEBUG', self.D_TVIP_DEBUG).replace('"', '')
 
+            # HomeBridge
+            self.struct['homebridge']['settings']['enable_homebridge']['value'] = \
+                    self.oe.get_service_state('homebridge')
+                
             self.oe.dbg_log('services::load_values', 'exit_function', 0)
         except Exception, e:
             self.oe.dbg_log('services::load_values', 'ERROR: (%s)' % repr(e))
@@ -846,3 +868,54 @@ class services:
         except Exception, e:
             self.oe.set_busy(0)
             self.oe.dbg_log('services::initialize_tvip', 'ERROR: (%s)' % repr(e), 4)
+
+    def initialize_homebridge(self, **kwargs):
+        try:
+            self.oe.dbg_log('services::initialize_homebridge', 'enter_function', 0)
+            self.oe.set_busy(1)
+            if 'listItem' in kwargs:
+                self.set_value(kwargs['listItem'])
+            state = 0
+            options = {}
+            if self.struct['homebridge']['settings']['enable_homebridge']['value'] == '1':
+
+                if not os.path.exists('/storage/.usr_local/bin/homebridge'):
+                    hbr_status = self.get_hbr_source()
+                    if hbr_status == 'OK':
+                        self.oe.notify(self.oe._(32363), 'Run HomeBridge server...')
+                    else:
+                        self.struct['homebridge']['settings']['enable_homebridge']['value'] = '0'
+                        self.oe.set_busy(0)
+                        xbmcDialog = xbmcgui.Dialog()
+                        answer = xbmcDialog.ok('Install HomeBridge',
+                            'Error: The program is not installed, try again.')
+                        return
+
+                state = 1
+
+            self.oe.set_service('homebridge', options, state)
+            self.oe.set_busy(0)
+            self.oe.dbg_log('services::initialize_homebridge', 'exit_function', 0)
+        except Exception, e:
+            self.oe.set_busy(0)
+            self.oe.dbg_log('services::initialize_homebridge', 'ERROR: (' + repr(e) + ')', 4)
+
+    def get_hbr_source(self, listItem=None, silent=False):
+        try:
+            self.oe.dbg_log('services::get_hbr_source', 'enter_function', 0)
+            hbr_url = self.oe.execute(self.HBR_GET_SRC + ' url', 1).strip()
+            self.download_file = hbr_url
+            self.oe.set_busy(0)
+            if hasattr(self, 'download_file'):
+                downloaded = self.oe.download_file(self.download_file, self.oe.TEMP + self.download_file.split('/')[-1], silent)
+                if not downloaded is None:
+                    self.oe.notify(self.oe._(32363), 'Install HomeBridge server...')
+                    self.oe.set_busy(1)
+                    self.oe.execute(self.HBR_GET_SRC + ' install', 0)
+                    self.oe.set_busy(0)
+                    self.oe.dbg_log('services::get_hbr_source', 'exit_function', 0)
+                    return 'OK'
+            self.oe.dbg_log('services::get_hbr_source', 'exit_function', 0)
+            return 'ERROR'
+        except Exception, e:
+            self.oe.dbg_log('services::get_hbr_source', 'ERROR: (%s)' % repr(e), 4)

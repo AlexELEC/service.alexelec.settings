@@ -139,6 +139,8 @@ services = {
     'D_TVIP_RCTIME'     : '4',
     'D_TVIP_DEBUG'      : '0',
     'TVIP_DAEMON'       : '/home/tvip/tvip',
+    # HomeBridge
+    'HBR_GET_SRC'       : "%s/homebridge-get.sh" % SCRIPT_DIR(),
     }
 
 system = {
@@ -180,6 +182,7 @@ _services = {
     'obexd': ['obex.service'],
     'crond': ['cron.service'],
     'eventlircd': ['eventlircd.service'],
+    'homebridge': ['homebridge.service'],
     'iptables': ['iptables.service'],
     'acestream': ['acestream.service'],
     'torrserver': ['torrserver.service'],

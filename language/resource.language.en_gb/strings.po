@@ -1301,3 +1301,17 @@ msgstr ""
 msgctxt "#2869"
 msgid "Add Tvheadend EPG to TVIP."
 msgstr ""
+
+########## HOMEBRIDGE #########
+
+msgctxt "#32890"
+msgid "HomeBridge Server"
+msgstr ""
+
+msgctxt "#32891"
+msgid "Enable HomeBridge"
+msgstr ""
+
+msgctxt "#2891"
+msgid "Homebridge allows you to integrate with smart home devices that do not support the HomeKit protocol."
+msgstr ""
