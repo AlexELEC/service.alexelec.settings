@@ -45,6 +45,7 @@ class services:
     D_TVIP_DEBUG = None
     TVIP_DAEMON = None
     HBR_GET_SRC = None
+    HBR_DAEMON = None
 
     menu = {'4': {
         'name': 32001,
@@ -553,8 +554,11 @@ class services:
                 self.oe.get_service_option('tvip', 'TVIP_DEBUG', self.D_TVIP_DEBUG).replace('"', '')
 
             # HomeBridge
-            self.struct['homebridge']['settings']['enable_homebridge']['value'] = \
-                    self.oe.get_service_state('homebridge')
+            if not os.path.isfile(self.HBR_DAEMON):
+                self.struct['homebridge']['hidden'] = 'true'
+            else:
+                self.struct['homebridge']['settings']['enable_homebridge']['value'] = \
+                        self.oe.get_service_state('homebridge')
                 
             self.oe.dbg_log('services::load_values', 'exit_function', 0)
         except Exception, e:
@@ -862,7 +866,7 @@ class services:
                 options['TVIP_LAST'] = '"%s"' % self.struct['tvip']['settings']['tvip_last']['value']
                 options['TVIP_RCTIME'] = '"%s"' % self.struct['tvip']['settings']['tvip_rctime']['value']
                 options['TVIP_DEBUG'] = '"%s"' % self.struct['tvip']['settings']['tvip_debug']['value']
-            self.oe.set_service('tvip', options, state)   
+                self.oe.set_service('tvip', options, state)   
             self.oe.set_busy(0)
             self.oe.dbg_log('services::initialize_tvip', 'exit_function', 0)
         except Exception, e:
@@ -877,23 +881,21 @@ class services:
                 self.set_value(kwargs['listItem'])
             state = 0
             options = {}
-            if self.struct['homebridge']['settings']['enable_homebridge']['value'] == '1':
-
-                if not os.path.exists('/storage/.usr_local/bin/homebridge'):
-                    hbr_status = self.get_hbr_source()
-                    if hbr_status == 'OK':
-                        self.oe.notify(self.oe._(32363), 'Run HomeBridge server...')
-                    else:
-                        self.struct['homebridge']['settings']['enable_homebridge']['value'] = '0'
-                        self.oe.set_busy(0)
-                        xbmcDialog = xbmcgui.Dialog()
-                        answer = xbmcDialog.ok('Install HomeBridge',
-                            'Error: The program is not installed, try again.')
-                        return
-
-                state = 1
-
-            self.oe.set_service('homebridge', options, state)
+            if not 'hidden' in self.struct['homebridge']:
+                if self.struct['homebridge']['settings']['enable_homebridge']['value'] == '1':
+                    if not os.path.exists('/storage/.usr_local/bin/homebridge'):
+                        hbr_status = self.get_hbr_source()
+                        if hbr_status == 'OK':
+                            self.oe.notify(self.oe._(32363), 'Run HomeBridge server...')
+                        else:
+                            self.struct['homebridge']['settings']['enable_homebridge']['value'] = '0'
+                            self.oe.set_busy(0)
+                            xbmcDialog = xbmcgui.Dialog()
+                            answer = xbmcDialog.ok('Install HomeBridge',
+                                'Error: The program is not installed, try again.')
+                            return
+                    state = 1
+                self.oe.set_service('homebridge', options, state)
             self.oe.set_busy(0)
             self.oe.dbg_log('services::initialize_homebridge', 'exit_function', 0)
         except Exception, e:

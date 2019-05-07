@@ -141,6 +141,7 @@ services = {
     'TVIP_DAEMON'       : '/home/tvip/tvip',
     # HomeBridge
     'HBR_GET_SRC'       : "%s/homebridge-get.sh" % SCRIPT_DIR(),
+    'HBR_DAEMON'        : '/storage/.config/homebridge/config.json',
     }
 
 system = {
