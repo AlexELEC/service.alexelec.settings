@@ -1315,3 +1315,11 @@ msgstr ""
 msgctxt "#2891"
 msgid "Homebridge allows you to integrate with smart home devices that do not support the HomeKit protocol."
 msgstr ""
+
+msgctxt "#32892"
+msgid "Reset HomeBridge"
+msgstr ""
+
+msgctxt "#2892"
+msgid "Reinstall HomeBridge with default settings."
+msgstr ""

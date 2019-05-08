@@ -46,6 +46,7 @@ class services:
     TVIP_DAEMON = None
     HBR_GET_SRC = None
     HBR_DAEMON = None
+    HBR_ISINSTALL = None
 
     menu = {'4': {
         'name': 32001,
@@ -390,6 +391,14 @@ class services:
                             'action': 'initialize_homebridge',
                             'type': 'bool',
                             'InfoText': 2891,
+                            },
+                        'disable_homebridge': {
+                            'order': 2,
+                            'name': 32892,
+                            'value': '0',
+                            'action': 'delete_homebridge',
+                            'type': 'button',
+                            'InfoText': 2892,
                             },
                         },
                     },
@@ -921,3 +930,27 @@ class services:
             return 'ERROR'
         except Exception, e:
             self.oe.dbg_log('services::get_hbr_source', 'ERROR: (%s)' % repr(e), 4)
+
+    def delete_homebridge(self, listItem=None):
+        try:
+            self.oe.dbg_log('services::delete_homebridge', 'enter_function', 0)
+            if os.path.exists(self.HBR_ISINSTALL):
+                options = {}
+                status_hbr = 0
+                self.oe.notify(self.oe._(32363), 'Delete HomeBridge...')
+                self.oe.set_busy(1)
+                if self.oe.get_service_state('homebridge') == '1':
+                    status_hbr = 1
+                    self.struct['homebridge']['settings']['enable_homebridge']['value'] = '0'
+                    self.oe.set_service('homebridge', options, 0)
+                self.oe.execute('rm -fR /storage/.usr_local/*', 0)
+                self.oe.set_busy(0)
+                if status_hbr == '1':
+                    self.struct['homebridge']['settings']['enable_homebridge']['value'] = '1'
+                    self.initialize_homebridge()
+            else:
+                self.oe.notify(self.oe._(32363), 'HomeBridge is not install.')
+
+            self.oe.dbg_log('services::delete_homebridge', 'exit_function', 0)
+        except Exception, e:
+            self.oe.dbg_log('services::delete_homebridge', 'ERROR: (' + repr(e) + ')')
