@@ -1402,9 +1402,9 @@ msgid "Homebridge allows you to integrate with smart home devices that do not su
 msgstr "HomeBridge позволяет интегрироваться с устройствами умного дома, которые не поддерживают протокол HomeKit."
 
 msgctxt "#32892"
-msgid "Reset HomeBridge"
-msgstr "Востановить HomeBridge"
+msgid "Delete HomeBridge"
+msgstr "Удалить HomeBridge"
 
 msgctxt "#2892"
-msgid "Reinstall HomeBridge with default settings."
-msgstr "Востановить HomeBridge с настройками по умолчанию (если сервис не отвечает)."
+msgid "Delete HomeBridge service."
+msgstr "Удалить HomeBridge Сервер."

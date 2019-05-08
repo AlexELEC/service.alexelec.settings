@@ -936,18 +936,14 @@ class services:
             self.oe.dbg_log('services::delete_homebridge', 'enter_function', 0)
             if os.path.exists(self.HBR_ISINSTALL):
                 options = {}
-                status_hbr = 0
                 self.oe.notify(self.oe._(32363), 'Delete HomeBridge...')
                 self.oe.set_busy(1)
                 if self.oe.get_service_state('homebridge') == '1':
-                    status_hbr = 1
                     self.struct['homebridge']['settings']['enable_homebridge']['value'] = '0'
                     self.oe.set_service('homebridge', options, 0)
                 self.oe.execute('rm -fR /storage/.usr_local/*', 0)
+                self.oe.notify(self.oe._(32363), 'Delete HomeBridge: done.')
                 self.oe.set_busy(0)
-                if status_hbr == '1':
-                    self.struct['homebridge']['settings']['enable_homebridge']['value'] = '1'
-                    self.initialize_homebridge()
             else:
                 self.oe.notify(self.oe._(32363), 'HomeBridge is not install.')
 

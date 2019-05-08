@@ -1317,9 +1317,9 @@ msgid "Homebridge allows you to integrate with smart home devices that do not su
 msgstr ""
 
 msgctxt "#32892"
-msgid "Reset HomeBridge"
+msgid "Delete HomeBridge"
 msgstr ""
 
 msgctxt "#2892"
-msgid "Reinstall HomeBridge with default settings."
+msgid "Delete HomeBridge service."
 msgstr ""
