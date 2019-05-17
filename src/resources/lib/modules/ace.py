@@ -108,9 +108,21 @@ class ace:
                             'type': 'bool',
                             'InfoText': 3491,
                             },
-                        'upd_ptv': {
+                        'empty_ptv': {
                             'order': 2,
                             'name': 34092,
+                            'value': '0',
+                            'action': 'clean_ptv',
+                            'type': 'button',
+                            'parent': {
+                                'entry': 'enable_ptv',
+                                'value': ['1']
+                                },
+                            'InfoText': 3492,
+                            },
+                        'upd_ptv': {
+                            'order': 3,
+                            'name': 34093,
                             'value': '0',
                             'action': 'update_ptv',
                             'type': 'button',
@@ -118,7 +130,7 @@ class ace:
                                 'entry': 'enable_ptv',
                                 'value': ['1']
                                 },
-                            'InfoText': 3492,
+                            'InfoText': 3493,
                             },
                         },
                     },
@@ -360,11 +372,15 @@ class ace:
             if os.path.exists('/storage/.config/ptv3/latest'):
                 self.oe.notify(self.oe._(32363), 'Check new version...')
                 self.oe.set_busy(1)
-                message = self.oe.execute(self.PAZL_GET_SRC + ' new', 1).strip()
+                ver_update = self.oe.execute(self.PAZL_GET_SRC + ' new', 1).strip()
                 self.oe.set_busy(0)
-                if not message == 'NOT UPDATE':
+                if not ver_update == 'NOT UPDATE':
+                    self.oe.set_busy(1)
+                    ver_current = self.oe.execute(self.PAZL_GET_SRC + ' old', 1).strip()
+                    self.oe.set_busy(0)
                     dialog = xbmcgui.Dialog()
-                    ret = dialog.yesno('Обновить Пазл-ТВ?', 'New version: %s' % message)
+                    ret = dialog.yesno('Update Puzzle-TV?', ' ', 'Current version:  %s' % ver_current,
+                                                                 'Update  version:  %s' % ver_update)
                     if ret:
                         self.oe.set_busy(1)
                         self.oe.execute('systemctl stop ptv.service', 0)
@@ -372,7 +388,7 @@ class ace:
                         ptv_status = self.get_ptv_source()
                         self.oe.set_busy(0)
                         if ptv_status == 'OK':
-                            self.oe.notify(self.oe._(32363), 'Run Pazl-TV version: %s ...' % message)
+                            self.oe.notify(self.oe._(32363), 'Run Puzzle-TV version: %s ...' % ver_update)
                         else:
                             self.oe.notify(self.oe._(32363), 'Updates is not installed, try again.')
                         self.oe.execute(self.PAZL_GET_SRC + ' restore', 0)
@@ -382,6 +398,23 @@ class ace:
 
         except Exception, e:
             self.oe.dbg_log('ace::update_ptv', 'ERROR: (' + repr(e) + ')')
+
+    def clean_ptv(self, listItem=None):
+        try:
+            self.oe.dbg_log('ace::clean_ptv', 'enter_function', 0)
+            dialog = xbmcgui.Dialog()
+            ret = dialog.yesno('Clean channel database?', ' ',
+                               'This completely cleanse channels and settings!')
+            if ret:
+                self.oe.set_busy(1)
+                self.oe.execute('systemctl stop ptv.service', 0)
+                self.oe.execute(self.PAZL_GET_SRC + ' clean', 0)
+                self.oe.execute('systemctl start ptv.service', 0)
+                self.oe.set_busy(0)
+                self.oe.notify(self.oe._(32363), 'Puzzle-TV channel database cleared.')
+
+        except Exception, e:
+            self.oe.dbg_log('ace::clean_ptv', 'ERROR: (' + repr(e) + ')')
 
     def exit(self):
         try:

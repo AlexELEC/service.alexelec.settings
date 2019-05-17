@@ -1069,21 +1069,29 @@ msgctxt "#3483"
 msgid "Enable debugging TorrServer."
 msgstr "Включить ведение журнала работы TorrServer."
 
-########## PAZL-TV #########
+########## PUZZLE-TV #########
 
 msgctxt "#34090"
-msgid "Pazl IPTV aggregator"
-msgstr "Пазл-ТВ севис"
+msgid "Puzzle-TV IPTV aggregator"
+msgstr "Пазл-ТВ сервер"
 
 msgctxt "#3491"
-msgid "Pazl: IPTV proxy service and channel aggregator."
-msgstr "Пазл-ТВ: прокси сервис и агрегатор IPTV каналов."
+msgid "Puzzle-TV: IPTV proxy service and channel aggregator."
+msgstr "Пазл-ТВ: прокси сервер и агрегатор IPTV каналов."
 
 msgctxt "#34092"
+msgid "Reset settings"
+msgstr "Сброс настроек"
+
+msgctxt "#3492"
+msgid "This completely cleanse database channels, groups and settings!"
+msgstr "Это полностью сбросит все настройки, удалит базу данных каналов и групп."
+
+msgctxt "#34093"
 msgid "Update service"
 msgstr "Обновить"
 
-msgctxt "#3492"
+msgctxt "#3493"
 msgid "Check and install new version."
 msgstr "Проверить и установить (если доступно) новую версию."
 

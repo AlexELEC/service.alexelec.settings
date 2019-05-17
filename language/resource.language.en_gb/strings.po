@@ -984,21 +984,29 @@ msgctxt "#3483"
 msgid "Enable debugging TorrServer."
 msgstr ""
 
-########## PAZL-TV #########
+########## PUZZLE-TV #########
 
 msgctxt "#34090"
-msgid "Pazl IPTV aggregator"
+msgid "Puzzle-TV IPTV aggregator"
 msgstr ""
 
 msgctxt "#3491"
-msgid "Pazl: IPTV proxy service and channel aggregator."
+msgid "Puzzle-TV: IPTV proxy service and channel aggregator."
 msgstr ""
 
 msgctxt "#34092"
-msgid "Update service"
+msgid "Reset settings"
 msgstr ""
 
 msgctxt "#3492"
+msgid "This completely cleanse database channels, groups and settings!"
+msgstr ""
+
+msgctxt "#34093"
+msgid "Update service"
+msgstr ""
+
+msgctxt "#3493"
 msgid "Check and install new version."
 msgstr ""
 
