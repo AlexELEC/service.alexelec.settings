@@ -3,8 +3,8 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
 # Copyright (C) 2011-present Alex@ELEC (http://alexelec.in.ua)
 
-URL_MAIN="https://github.com/AlexELEC/ptv/releases/download"
-URL_LAST="https://github.com/AlexELEC/ptv/releases/latest"
+URL_MAIN="https://github.com/AlexELEC/puzzle-tv/releases/download"
+URL_LAST="https://github.com/AlexELEC/puzzle-tv/releases/latest"
 
 PTV_DIR="/storage/.config/ptv3"
 TEMP_DIR="/storage/.kodi/temp"
