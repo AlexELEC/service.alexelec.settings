@@ -328,12 +328,12 @@ class ace:
                 if not os.path.exists('/storage/.config/ptv3/server.py'):
                     ptv_status = self.get_ptv_source()
                     if ptv_status == 'OK':
-                        self.oe.notify(self.oe._(32363), 'Run Pazl IPTV aggregator...')
+                        self.oe.notify(self.oe._(32363), 'Run Puzzle-TV IPTV aggregator...')
                     else:
                         self.struct['ptv']['settings']['enable_ptv']['value'] = '0'
                         self.oe.set_busy(0)
                         xbmcDialog = xbmcgui.Dialog()
-                        answer = xbmcDialog.ok('Install Pazl-TV',
+                        answer = xbmcDialog.ok('Install Puzzle-TV',
                             'Error: The program is not installed, try again.')
                         return
 
@@ -355,7 +355,7 @@ class ace:
             if hasattr(self, 'download_file'):
                 downloaded = self.oe.download_file(self.download_file, self.oe.TEMP + self.download_file.split('/')[-1], silent)
                 if not downloaded is None:
-                    self.oe.notify(self.oe._(32363), 'Install Pazl IPTV aggregator...')
+                    self.oe.notify(self.oe._(32363), 'Install Puzzle-TV IPTV aggregator...')
                     self.oe.set_busy(1)
                     self.oe.execute(self.PAZL_GET_SRC + ' install', 0)
                     self.oe.set_busy(0)

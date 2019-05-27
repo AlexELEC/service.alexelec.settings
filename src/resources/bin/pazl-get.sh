@@ -60,14 +60,18 @@ UPD_VER=`curl -s "$URL_LAST" | sed 's|.*tag\/||; s|">redirected.*||')`
 # clean DB
   elif [ "$1" == "clean" ] ; then
       mv -f $PTV_DIR/user $PTV_DIR/user.bk
+	  mkdir -p $PTV_DIR/user
+	  cp -f $PTV_DIR/user.bk/__init__.py $PTV_DIR/user
       mv -f $PTV_DIR/settings $PTV_DIR/settings.bk
       mv -f $PTV_DIR/DBcnl.py $PTV_DIR/DBcnl.py.bk
       mv -f $PTV_DIR/DefGR.py $PTV_DIR/DefGR.py.bk
       cp -f $PTV_DIR/DBcnl.empty $PTV_DIR/DBcnl.py
-      mv -f $PTV_DIR/DefGR.empty $PTV_DIR/DefGR.py
+      cp -f $PTV_DIR/DefGR.empty $PTV_DIR/DefGR.py
       mkdir -p $PTV_DIR/settings
       echo "'true'" > $PTV_DIR/settings/ace_local
       rm -fR $PTV_DIR/serv/*.cl
+	  rm -fR $PTV_DIR/serv/*.pyo
+	  rm -fR $PTV_DIR/*.pyo
       rm -fR $PTV_DIR/temp
 
   fi
