@@ -377,7 +377,7 @@ class ace:
                 state = 1
                 options['STREAM_PTV'] = '"%s"' % self.struct['ptv']['settings']['stream_ptv']['value']
                 if self.struct['ptv']['settings']['stream_ptv']['value'] == 'VLC':
-                    del self.struct['ptv']['settings']['cache_ptv']['hidden']
+                    self.struct['ptv']['settings']['cache_ptv']['hidden'] = 'false'
                     options['CACHE_PTV'] = '"%s"' % self.struct['ptv']['settings']['cache_ptv']['value']
                 else:
                     self.struct['ptv']['settings']['cache_ptv']['hidden'] = 'true'
