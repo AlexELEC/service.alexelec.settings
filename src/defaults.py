@@ -53,6 +53,8 @@ ace = {
     'TORRSRV_GET_SRC' : "%s/torrsrv-get.sh" % SCRIPT_DIR(),
     #PAZL TV
     'PAZL_GET_SRC'    : "%s/pazl-get.sh" % SCRIPT_DIR(),
+    'D_STREAM_PTV'    : 'FFmpeg',
+    'D_CACHE_PTV'     : '20'
     }
 
 aceplist = {

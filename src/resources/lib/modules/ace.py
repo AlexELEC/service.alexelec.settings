@@ -17,6 +17,8 @@ class ace:
     D_TORRSRV_DEBUG = None
     TORRSRV_GET_SRC = None
     PAZL_GET_SRC = None
+    D_STREAM_PTV = None
+    D_CACHE_PTV = None
 
     menu = {'92': {
         'name': 34000,
@@ -132,6 +134,31 @@ class ace:
                                 },
                             'InfoText': 3493,
                             },
+                        'stream_ptv': {
+                            'order': 4,
+                            'name': 34094,
+                            'value': 'FFmpeg',
+                            'values': ['FFmpeg', 'VLC'],
+                            'action': 'initialize_ptv',
+                            'type': 'multivalue',
+                            'parent': {
+                                'entry': 'enable_ptv',
+                                'value': ['1']
+                                },
+                            'InfoText': 3494,
+                            },
+                        'cache_ptv': {
+                            'order': 5,
+                            'name': 34095,
+                            'value': '20',
+                            'action': 'initialize_ptv',
+                            'type': 'num',
+                            'parent': {
+                                'entry': 'enable_ptv',
+                                'value': ['1']
+                                },
+                            'InfoText': 3495,
+                            },
                         },
                     },
             }
@@ -207,6 +234,16 @@ class ace:
             #PAZL TV
             self.struct['ptv']['settings']['enable_ptv']['value'] = \
                     self.oe.get_service_state('ptv')
+
+            self.struct['ptv']['settings']['stream_ptv']['value'] = \
+            self.oe.get_service_option('ptv', 'STREAM_PTV', self.D_STREAM_PTV).replace('"', '')
+
+            if self.struct['ptv']['settings']['stream_ptv']['value'] == 'VLC':
+                self.struct['ptv']['settings']['cache_ptv']['value'] = \
+                self.oe.get_service_option('ptv', 'CACHE_PTV', self.D_CACHE_PTV).replace('"', '')
+            else:
+                self.struct['ptv']['settings']['cache_ptv']['hidden'] = 'true'
+
 
             self.oe.dbg_log('ace::load_values', 'exit_function', 0)
         except Exception, e:
@@ -338,6 +375,12 @@ class ace:
                         return
 
                 state = 1
+                options['STREAM_PTV'] = '"%s"' % self.struct['ptv']['settings']['stream_ptv']['value']
+                if self.struct['ptv']['settings']['stream_ptv']['value'] == 'VLC':
+                    del self.struct['ptv']['settings']['cache_ptv']['hidden']
+                    options['CACHE_PTV'] = '"%s"' % self.struct['ptv']['settings']['cache_ptv']['value']
+                else:
+                    self.struct['ptv']['settings']['cache_ptv']['hidden'] = 'true'
 
             self.oe.set_service('ptv', options, state)
             self.oe.set_busy(0)

@@ -1010,6 +1010,22 @@ msgctxt "#3493"
 msgid "Check and install new version."
 msgstr ""
 
+msgctxt "#34094"
+msgid "Streaming mode"
+msgstr ""
+
+msgctxt "#3494"
+msgid "Streaming mode for Tvheadend."
+msgstr ""
+
+msgctxt "#34095"
+msgid "Buffer (sec.)"
+msgstr ""
+
+msgctxt "#3495"
+msgid "Buffer in seconds from 1 to 60. Only for mode VLC."
+msgstr ""
+
 ########## TTV-LIST #########
 
 msgctxt "#34050"
