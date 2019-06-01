@@ -1097,11 +1097,11 @@ msgstr "Проверить и установить (если доступно) �
 
 msgctxt "#34094"
 msgid "Streaming mode"
-msgstr "Режим стримнга"
+msgstr "Режим стриминга"
 
 msgctxt "#3494"
 msgid "Streaming mode for Tvheadend."
-msgstr "Выберите режим стримнга для Tvheadend (FFmpeg или VLC)."
+msgstr "Выберите режим стриминга для Tvheadend (FFmpeg или VLC)."
 
 msgctxt "#34095"
 msgid "Buffer (sec.)"
