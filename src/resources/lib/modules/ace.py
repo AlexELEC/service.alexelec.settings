@@ -238,12 +238,8 @@ class ace:
             self.struct['ptv']['settings']['stream_ptv']['value'] = \
             self.oe.get_service_option('ptv', 'STREAM_PTV', self.D_STREAM_PTV).replace('"', '')
 
-            if self.struct['ptv']['settings']['stream_ptv']['value'] == 'VLC':
-                self.struct['ptv']['settings']['cache_ptv']['value'] = \
-                self.oe.get_service_option('ptv', 'CACHE_PTV', self.D_CACHE_PTV).replace('"', '')
-            else:
-                self.struct['ptv']['settings']['cache_ptv']['hidden'] = 'true'
-
+            self.struct['ptv']['settings']['cache_ptv']['value'] = \
+            self.oe.get_service_option('ptv', 'CACHE_PTV', self.D_CACHE_PTV).replace('"', '')
 
             self.oe.dbg_log('ace::load_values', 'exit_function', 0)
         except Exception, e:
@@ -376,11 +372,7 @@ class ace:
 
                 state = 1
                 options['STREAM_PTV'] = '"%s"' % self.struct['ptv']['settings']['stream_ptv']['value']
-                if self.struct['ptv']['settings']['stream_ptv']['value'] == 'VLC':
-                    self.struct['ptv']['settings']['cache_ptv']['hidden'] = 'false'
-                    options['CACHE_PTV'] = '"%s"' % self.struct['ptv']['settings']['cache_ptv']['value']
-                else:
-                    self.struct['ptv']['settings']['cache_ptv']['hidden'] = 'true'
+                options['CACHE_PTV'] = '"%s"' % self.struct['ptv']['settings']['cache_ptv']['value']
 
             self.oe.set_service('ptv', options, state)
             self.oe.set_busy(0)
