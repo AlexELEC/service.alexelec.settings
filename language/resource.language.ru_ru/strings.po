@@ -1108,8 +1108,8 @@ msgid "Buffer (sec.)"
 msgstr "Буффер (сек.)"
 
 msgctxt "#3495"
-msgid "Buffer in seconds from 1 to 60. Only for mode VLC."
-msgstr "Сетевой буфер для потока в секундах от 1 до 60. Только для режима VLC."
+msgid "Buffer in seconds from 0 to 60. Only for mode VLC."
+msgstr "Сетевой буфер для потока в секундах от 0 до 60. Только для режима VLC."
 
 ########## TTV-LIST #########
 

@@ -54,7 +54,7 @@ ace = {
     #PAZL TV
     'PAZL_GET_SRC'    : "%s/pazl-get.sh" % SCRIPT_DIR(),
     'D_STREAM_PTV'    : 'FFmpeg',
-    'D_CACHE_PTV'     : '20'
+    'D_CACHE_PTV'     : '5'
     }
 
 aceplist = {

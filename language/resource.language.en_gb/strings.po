@@ -1023,7 +1023,7 @@ msgid "Buffer (sec.)"
 msgstr ""
 
 msgctxt "#3495"
-msgid "Buffer in seconds from 1 to 60. Only for mode VLC."
+msgid "Buffer in seconds from 0 to 60. Only for mode VLC."
 msgstr ""
 
 ########## TTV-LIST #########

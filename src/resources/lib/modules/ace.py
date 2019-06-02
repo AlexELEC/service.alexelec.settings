@@ -150,7 +150,7 @@ class ace:
                         'cache_ptv': {
                             'order': 5,
                             'name': 34095,
-                            'value': '20',
+                            'value': '5',
                             'action': 'initialize_ptv',
                             'type': 'num',
                             'parent': {
@@ -238,8 +238,13 @@ class ace:
             self.struct['ptv']['settings']['stream_ptv']['value'] = \
             self.oe.get_service_option('ptv', 'STREAM_PTV', self.D_STREAM_PTV).replace('"', '')
 
-            self.struct['ptv']['settings']['cache_ptv']['value'] = \
-            self.oe.get_service_option('ptv', 'CACHE_PTV', self.D_CACHE_PTV).replace('"', '')
+            if self.struct['ptv']['settings']['stream_ptv']['value'] == 'VLC':
+                self.struct['ptv']['settings']['cache_ptv']['value'] = \
+                self.oe.get_service_option('ptv', 'CACHE_PTV', self.D_CACHE_PTV).replace('"', '')
+                if 'hidden' in self.struct['ptv']['settings']['cache_ptv']:
+                    del self.struct['ptv']['settings']['cache_ptv']['hidden']
+            else:
+                self.struct['ptv']['settings']['cache_ptv']['hidden'] = 'true'
 
             self.oe.dbg_log('ace::load_values', 'exit_function', 0)
         except Exception, e:
@@ -370,6 +375,11 @@ class ace:
                             'Error: The program is not installed, try again.')
                         return
 
+                if self.struct['ptv']['settings']['stream_ptv']['value'] == 'VLC':
+                    if 'hidden' in self.struct['ptv']['settings']['cache_ptv']:
+                        del self.struct['ptv']['settings']['cache_ptv']['hidden']
+                else:
+                    self.struct['ptv']['settings']['cache_ptv']['hidden'] = 'true'
                 state = 1
                 options['STREAM_PTV'] = '"%s"' % self.struct['ptv']['settings']['stream_ptv']['value']
                 options['CACHE_PTV'] = '"%s"' % self.struct['ptv']['settings']['cache_ptv']['value']
