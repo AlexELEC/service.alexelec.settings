@@ -1105,7 +1105,7 @@ msgstr "Выберите режим стриминга для Tvheadend (FFmpeg 
 
 msgctxt "#34095"
 msgid "Buffer (sec.)"
-msgstr "Буффер (сек.)"
+msgstr "Буфер (сек.)"
 
 msgctxt "#3495"
 msgid "Buffer in seconds from 0 to 60. Only for mode VLC."
