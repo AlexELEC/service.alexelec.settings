@@ -191,6 +191,7 @@ _services = {
     'acestream': ['acestream.service'],
     'torrserver': ['torrserver.service'],
     'ptv': ['ptv.service'],
+    'dvbmode': ['dvbmode.service'],
     'oscam': ['oscam.service'],
     'tvheadend': ['tvheadend.service'],
     }

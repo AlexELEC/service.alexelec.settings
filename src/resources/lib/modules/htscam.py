@@ -46,8 +46,23 @@ class htscam:
             oeMain.dbg_log('tvserver::__init__', 'enter_function', 0)
 
             self.struct = {
-                'oscam': {
+                'dvbmode': {
                     'order': 1,
+                    'name': 42010,
+                    'not_supported': [],
+                    'settings': {
+                        'enable_dvbmode': {
+                            'order': 1,
+                            'name': 42011,
+                            'value': '0',
+                            'action': 'initialize_dvbmode',
+                            'type': 'bool',
+                            'InfoText': 4211,
+                        },
+                    },
+                },
+                'oscam': {
+                    'order': 2,
                     'name': 42020,
                     'not_supported': [],
                     'settings': {
@@ -62,7 +77,7 @@ class htscam:
                     },
                 },
                 'tvheadend': {
-                    'order': 2,
+                    'order': 3,
                     'name': 42030,
                     'not_supported': [],
                     'settings': {
@@ -104,7 +119,7 @@ class htscam:
                     },
                 },
                 'logos': {
-                    'order': 3,
+                    'order': 4,
                     'name': 43050,
                     'not_supported': [],
                     'settings': {
@@ -165,6 +180,7 @@ class htscam:
         try:
             self.oe.dbg_log('tvserver::start_service', 'enter_function', 0)
             self.load_values()
+            self.initialize_dvbmode()
             self.initialize_oscam()
             self.initialize_tvheadend()
             self.initialize_logos()
@@ -210,6 +226,10 @@ class htscam:
         try:
             self.oe.dbg_log('tvserver::load_values', 'enter_function', 0)
 
+            # DVB MODE
+            self.struct['dvbmode']['settings']['enable_dvbmode']['value'] = \
+                    self.oe.get_service_state('dvbmode')
+
             # OSCAM_DAEMON
             self.struct['oscam']['settings']['enable_oscam']['value'] = \
                     self.oe.get_service_state('oscam')
@@ -247,6 +267,23 @@ class htscam:
             self.oe.dbg_log('tvserver::load_values', 'exit_function', 0)
         except Exception, e:
             self.oe.dbg_log('tvserver::load_values', 'ERROR: (%s)' % repr(e))
+
+    def initialize_dvbmode(self, **kwargs):
+        try:
+            self.oe.dbg_log('tvserver::initialize_dvbmode', 'enter_function', 0)
+            self.oe.set_busy(1)
+            if 'listItem' in kwargs:
+                self.set_value(kwargs['listItem'])
+            options = {}
+            state = 0
+            if self.struct['dvbmode']['settings']['enable_dvbmode']['value'] == '1':
+                state = 1
+            self.oe.set_service('dvbmode', options, state)
+            self.oe.set_busy(0)
+            self.oe.dbg_log('tvserver::initialize_dvbmode', 'exit_function', 0)
+        except Exception, e:
+            self.oe.set_busy(0)
+            self.oe.dbg_log('tvserver::initialize_dvbmode', 'ERROR: (%s)' % repr(e), 4)
 
     def initialize_oscam(self, **kwargs):
         try:

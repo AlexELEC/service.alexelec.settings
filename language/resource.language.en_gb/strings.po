@@ -1106,6 +1106,20 @@ msgctxt "#4300"
 msgid "Configure Tvheadend and CAMD server."
 msgstr ""
 
+### DVB MODE ###
+
+msgctxt "#42010"
+msgid "DVB Mode"
+msgstr ""
+
+msgctxt "#42011"
+msgid "Enable"
+msgstr ""
+
+msgctxt "#4211"
+msgid "Set DVB mode of the TV box. In this mode, all processor cores are turned on and the maximum CPU frequency is set."
+msgstr ""
+
 ### OSCAM_DAEMON ###
 
 msgctxt "#42020"
