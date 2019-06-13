@@ -19,6 +19,7 @@ class ace:
     PAZL_GET_SRC = None
     D_STREAM_PTV = None
     D_CACHE_PTV = None
+    D_ACEPROXY_DEBUG = None
 
     menu = {'92': {
         'name': 34000,
@@ -161,6 +162,34 @@ class ace:
                             },
                         },
                     },
+                'aceproxy': {
+                    'order': 4,
+                    'name': 34020,
+                    'not_supported': [],
+                    'settings': {
+                        'enable_aceproxy': {
+                            'order': 1,
+                            'name': 34011,
+                            'value': None,
+                            'action': 'initialize_aceproxy',
+                            'type': 'bool',
+                            'InfoText': 3421,
+                            },
+                        'aceproxy_debug': {
+                            'order': 2,
+                            'name': 34022,
+                            'value': 'INFO',
+                            'action': 'initialize_aceproxy',
+                            'type': 'multivalue',
+                            'values': ['DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL'],
+                            'parent': {
+                                'entry': 'enable_aceproxy',
+                                'value': ['1']
+                                },
+                            'InfoText': 3422,
+                            },
+                        },
+                    },
             }
 
             self.oe = oeMain
@@ -175,6 +204,7 @@ class ace:
             self.initialize_acestream()
             self.initialize_torrserver()
             self.initialize_ptv()
+            self.initialize_aceproxy()
             self.oe.dbg_log('ace::start_service', 'exit_function', 0)
         except Exception, e:
             self.oe.dbg_log('ace::start_service', 'ERROR: (%s)' % repr(e))
@@ -245,6 +275,13 @@ class ace:
                     del self.struct['ptv']['settings']['cache_ptv']['hidden']
             else:
                 self.struct['ptv']['settings']['cache_ptv']['hidden'] = 'true'
+
+            #ACEPROXY
+            self.struct['aceproxy']['settings']['enable_aceproxy']['value'] = \
+                    self.oe.get_service_state('aceproxy')
+
+            self.struct['aceproxy']['settings']['aceproxy_debug']['value'] = \
+            self.oe.get_service_option('aceproxy', 'ACEPROXY_DEBUG', self.D_ACEPROXY_DEBUG).replace('"', '')
 
             self.oe.dbg_log('ace::load_values', 'exit_function', 0)
         except Exception, e:
@@ -460,6 +497,24 @@ class ace:
 
         except Exception, e:
             self.oe.dbg_log('ace::clean_ptv', 'ERROR: (' + repr(e) + ')')
+
+    def initialize_aceproxy(self, **kwargs):
+        try:
+            self.oe.dbg_log('ace::initialize_aceproxy', 'enter_function', 0)
+            self.oe.set_busy(1)
+            if 'listItem' in kwargs:
+                self.set_value(kwargs['listItem'])
+            options = {}
+            state = 0
+            if self.struct['aceproxy']['settings']['enable_aceproxy']['value'] == '1':
+                options['ACEPROXY_DEBUG'] = '"%s"' % self.struct['aceproxy']['settings']['aceproxy_debug']['value']
+                state = 1
+            self.oe.set_service('aceproxy', options, state)
+            self.oe.set_busy(0)
+            self.oe.dbg_log('ace::initialize_aceproxy', 'exit_function', 0)
+        except Exception, e:
+            self.oe.set_busy(0)
+            self.oe.dbg_log('ace::initialize_aceproxy', 'ERROR: (%s)' % repr(e), 4)
 
     def exit(self):
         try:

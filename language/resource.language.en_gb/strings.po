@@ -1026,6 +1026,24 @@ msgctxt "#3495"
 msgid "Buffer in seconds from 0 to 60. Only for mode VLC."
 msgstr ""
 
+########## ACEPROXY #########
+
+msgctxt "#34020"
+msgid "AceProxy Service"
+msgstr ""
+
+msgctxt "#3421"
+msgid "AceProxy allows you to watch Ace Stream live streams or BitTorrent files over HTTP."
+msgstr ""
+
+msgctxt "#34022"
+msgid "Debug level"
+msgstr ""
+
+msgctxt "#3422"
+msgid "Select debugging level AceProxy."
+msgstr ""
+
 ########## TTV-LIST #########
 
 msgctxt "#34050"
