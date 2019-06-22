@@ -1216,8 +1216,8 @@ msgid "DVB Mode"
 msgstr "DVB режим"
 
 msgctxt "#42011"
-msgid "Включить"
-msgstr ""
+msgid "Enable"
+msgstr "Включить"
 
 msgctxt "#4211"
 msgid "Set DVB mode of the TV box. In this mode, all processor cores are turned on and the maximum CPU frequency is set."
