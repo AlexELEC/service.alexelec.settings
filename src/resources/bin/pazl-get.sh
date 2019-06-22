@@ -50,11 +50,13 @@ UPD_VER=`curl -s "$URL_LAST" | sed 's|.*tag\/||; s|">redirected.*||')`
       mkdir -p $BACKUP_DIR
       [ -d "$PTV_DIR/settings" ] && cp -rf $PTV_DIR/settings $BACKUP_DIR
       [ -d "$PTV_DIR/user" ] && cp -rf $PTV_DIR/user $BACKUP_DIR
+      [ -d "$PTV_DIR/logo" ] && cp -rf $PTV_DIR/logo $BACKUP_DIR
 
 # restore
   elif [ "$1" == "restore" ] ; then
       [ -d "$BACKUP_DIR/settings" ] && cp -rf $BACKUP_DIR/settings $PTV_DIR
       [ -d "$BACKUP_DIR/user" ] && cp -rf $BACKUP_DIR/user $PTV_DIR
+      [ -d "$BACKUP_DIR/logo" ] && cp -rf $BACKUP_DIR/logo $PTV_DIR
       rm -fR $BACKUP_DIR
 
 # clean DB
