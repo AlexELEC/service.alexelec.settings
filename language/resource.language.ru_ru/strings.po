@@ -1111,6 +1111,14 @@ msgctxt "#3495"
 msgid "Buffer in seconds from 0 to 60. Only for mode VLC."
 msgstr "Сетевой буфер для потока в секундах от 0 до 60. Только для режима VLC."
 
+msgctxt "#34096"
+msgid "Clear Blacklist"
+msgstr "Очистить Черный список"
+
+msgctxt "#3496"
+msgid "Channel Blacklist will be cleared."
+msgstr "Черный список будет полностью удален."
+
 ########## ACEPROXY #########
 
 msgctxt "#34020"

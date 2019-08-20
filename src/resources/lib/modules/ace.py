@@ -123,8 +123,20 @@ class ace:
                                 },
                             'InfoText': 3492,
                             },
-                        'upd_ptv': {
+                        'blist_ptv': {
                             'order': 3,
+                            'name': 34096,
+                            'value': '0',
+                            'action': 'flush_blist_ptv',
+                            'type': 'button',
+                            'parent': {
+                                'entry': 'enable_ptv',
+                                'value': ['1']
+                                },
+                            'InfoText': 3496,
+                            },
+                        'upd_ptv': {
+                            'order': 4,
                             'name': 34093,
                             'value': '0',
                             'action': 'update_ptv',
@@ -136,7 +148,7 @@ class ace:
                             'InfoText': 3493,
                             },
                         'stream_ptv': {
-                            'order': 4,
+                            'order': 5,
                             'name': 34094,
                             'value': 'FFmpeg',
                             'values': ['FFmpeg', 'VLC'],
@@ -149,7 +161,7 @@ class ace:
                             'InfoText': 3494,
                             },
                         'cache_ptv': {
-                            'order': 5,
+                            'order': 6,
                             'name': 34095,
                             'value': '5',
                             'action': 'initialize_ptv',
@@ -493,10 +505,27 @@ class ace:
                 self.oe.execute(self.PAZL_GET_SRC + ' clean', 0)
                 self.oe.execute('systemctl start ptv.service', 0)
                 self.oe.set_busy(0)
-                self.oe.notify(self.oe._(32363), 'Puzzle-TV channel database cleared.')
+                self.oe.notify(self.oe._(32363), 'Puzzle-TV: channel database cleared.')
 
         except Exception, e:
             self.oe.dbg_log('ace::clean_ptv', 'ERROR: (' + repr(e) + ')')
+
+    def flush_blist_ptv(self, listItem=None):
+        try:
+            self.oe.dbg_log('ace::flush_blist_ptv', 'enter_function', 0)
+            dialog = xbmcgui.Dialog()
+            ret = dialog.yesno('Clear channel blacklist?', ' ',
+                               'This completely cleanse blacklist channels!')
+            if ret:
+                self.oe.set_busy(1)
+                self.oe.execute('systemctl stop ptv.service', 0)
+                self.oe.execute('rm -f /storage/.config/ptv3/user/BList.*', 0)
+                self.oe.execute('systemctl start ptv.service', 0)
+                self.oe.set_busy(0)
+                self.oe.notify(self.oe._(32363), 'Puzzle-TV: blacklist of channels deleted.')
+
+        except Exception, e:
+            self.oe.dbg_log('ace::flush_blist_ptv', 'ERROR: (' + repr(e) + ')')
 
     def initialize_aceproxy(self, **kwargs):
         try:
