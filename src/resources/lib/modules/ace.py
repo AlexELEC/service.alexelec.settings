@@ -487,6 +487,8 @@ class ace:
                             self.oe.notify(self.oe._(32363), 'Updates is not installed, try again.')
                         self.oe.execute(self.PAZL_GET_SRC + ' restore', 0)
                         self.oe.execute('systemctl start ptv.service', 0)
+                        if os.path.exists('/storage/.cache/services/tvheadend.conf'):
+                            self.oe.execute('systemctl restart tvheadend.service', 0)
                 else:
                     self.oe.notify(self.oe._(32363), 'No updates available.')
 
