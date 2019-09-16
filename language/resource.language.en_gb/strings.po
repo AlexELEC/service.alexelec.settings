@@ -49,7 +49,7 @@ msgid "AlexELEC is created by a global team of Linux and Kodi enthusiasts who co
 msgstr ""
 
 msgctxt "#610"
-msgid "[B]Support[/B] is provided via our forum:[CR]http://forum.alexelec.in.ua[CR][CR][B]Documentation[/B] can be read in our website:[CR]http://www.alexelec.in.ua[CR][CR][B]Code[/B] can be found on GitHub:[CR]https://github.com/AlexELEC[CR][CR][B]Donations[/B] towards project expenses are accepted via page:[CR]http://www.alexelec.in.ua/membership"
+msgid "[B]Support[/B] is provided via our forum:[CR]http://forum.alexelec.in.ua[CR][CR][B]Documentation[/B] can be read in our website:[CR]http://www.alexelec.in.ua[CR][CR][B]Code[/B] can be found on GitHub:[CR]https://github.com/AlexELEC[CR][CR][B]Donations[/B] towards project expenses are accepted via page:[CR]http://www.alexelec.in.ua/membership[CR]By clicking on an advertisement for a site or forum you also support the project. Do not be shy :)"
 msgstr ""
 
 msgctxt "#700"
