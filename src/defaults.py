@@ -39,7 +39,7 @@ bluetooth = {
     }
 
 ################################################################################
-# AceStream, TorrServer Module
+# Torrents Module
 ################################################################################
 
 ace = {
@@ -57,31 +57,6 @@ ace = {
     'D_CACHE_PTV'     : '3',
     #ACEPROXY
     'D_ACEPROXY_DEBUG': 'INFO',
-    }
-
-aceplist = {
-    'ENABLED'        : True,
-    #TTV-LIST
-    'D_CAT_SHOW'     : '1',
-    'D_CAT_COMM'     : '1',
-    'D_CAT_FILMS'    : '1',
-    'D_CAT_EROS'     : '1',
-    'D_CAT_NEWS'     : '1',
-    'D_CAT_REGION'   : '0',
-    'D_CAT_MUSIC'    : '0',
-    'D_CAT_CHILDREN' : '0',
-    'D_CAT_SPORT'    : '0',
-    'D_CAT_RELIGION' : '0',
-    'D_CAT_MAN'      : '0',
-    'D_CAT_LEARN'    : '0',
-    'D_CAT_ALLFON'   : '0',
-    'D_ACETTV_IP'    : '0',
-    'D_TTV_LOGIN'    : '',
-    'D_TTV_PASSW'    : '',
-    'D_TRANSLATE'    : 'Trash-TTV',
-    'D_ACETTV_UPD'   : '0',
-    'TTV_DEL_LIST'   : "rm -f /storage/.config/acestream/ttv-m3u/update.status",
-    'TTV_RUN_LIST'   : "/usr/bin/ttvget-live",
     }
 
 ################################################################################
