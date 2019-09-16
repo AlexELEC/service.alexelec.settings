@@ -163,7 +163,7 @@ class ace:
                         'cache_ptv': {
                             'order': 6,
                             'name': 34095,
-                            'value': '5',
+                            'value': '3',
                             'action': 'initialize_ptv',
                             'type': 'num',
                             'parent': {
@@ -412,7 +412,7 @@ class ace:
             state = 0
             if self.struct['ptv']['settings']['enable_ptv']['value'] == '1':
 
-                if not os.path.exists('/storage/.config/ptv3/server.py'):
+                if not os.path.exists('/storage/.config/puzzle/puzzle.py'):
                     ptv_status = self.get_ptv_source()
                     if ptv_status == 'OK':
                         self.oe.notify(self.oe._(32363), 'Run Puzzle-TV IPTV aggregator...')
@@ -463,7 +463,7 @@ class ace:
     def update_ptv(self, listItem=None):
         try:
             self.oe.dbg_log('ace::update_ptv', 'enter_function', 0)
-            if os.path.exists('/storage/.config/ptv3/latest'):
+            if os.path.exists('/storage/.config/puzzle/version'):
                 self.oe.notify(self.oe._(32363), 'Check new version...')
                 self.oe.set_busy(1)
                 ver_update = self.oe.execute(self.PAZL_GET_SRC + ' new', 1).strip()
@@ -521,7 +521,7 @@ class ace:
             if ret:
                 self.oe.set_busy(1)
                 self.oe.execute('systemctl stop ptv.service', 0)
-                self.oe.execute('rm -f /storage/.config/ptv3/user/BList.*', 0)
+                self.oe.execute('rm -f /storage/.config/puzzle/user/BList.*', 0)
                 self.oe.execute('systemctl start ptv.service', 0)
                 self.oe.set_busy(0)
                 self.oe.notify(self.oe._(32363), 'Puzzle-TV: blacklist of channels deleted.')
