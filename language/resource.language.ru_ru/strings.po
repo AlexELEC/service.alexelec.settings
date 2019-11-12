@@ -1119,6 +1119,14 @@ msgctxt "#3496"
 msgid "Channel Blacklist will be cleared."
 msgstr "Черный список будет полностью удален."
 
+msgctxt "#34097"
+msgid "Link down"
+msgstr "Понизить приоритет потока"
+
+msgctxt "#3497"
+msgid "Move the current link down the list."
+msgstr "Перенести текущую ссылку вниз списка."
+
 ########## ACEPROXY #########
 
 msgctxt "#34020"

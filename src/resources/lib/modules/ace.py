@@ -172,6 +172,18 @@ class ace:
                                 },
                             'InfoText': 3495,
                             },
+                        'down_ptv': {
+                            'order': 7,
+                            'name': 34097,
+                            'value': '0',
+                            'action': 'down_ptv_link',
+                            'type': 'button',
+                            'parent': {
+                                'entry': 'enable_ptv',
+                                'value': ['1']
+                                },
+                            'InfoText': 3497,
+                            },
                         },
                     },
                 'aceproxy': {
@@ -528,6 +540,22 @@ class ace:
 
         except Exception, e:
             self.oe.dbg_log('ace::flush_blist_ptv', 'ERROR: (' + repr(e) + ')')
+
+    def down_ptv_link(self, listItem=None):
+        try:
+            self.oe.dbg_log('ace::down_ptv_link', 'enter_function', 0)
+            import urllib2
+            req = urllib2.Request('http://127.0.0.1:8185/downlink')
+            response = urllib2.urlopen(req)
+            downlink = response.read()
+            response.close()
+            if downlink == 'none':
+                self.oe.notify(self.oe._(32363), 'Puzzle-TV: link is empty.')
+            else:
+                dialog = xbmcgui.Dialog()
+                ret = dialog.ok('Puzzle-TV: move link down', ' ', downlink)
+        except Exception, e:
+            self.oe.dbg_log('ace::down_ptv_link', 'ERROR: (' + repr(e) + ')')
 
     def initialize_aceproxy(self, **kwargs):
         try:
