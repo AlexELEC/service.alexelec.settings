@@ -116,6 +116,15 @@ class htscam:
                             'parent': {'entry': 'enable_tvheadend','value': ['1']},
                             'InfoText': 4234,
                         },
+                        'tvh_xmltv': {
+                            'order': 5,
+                            'name': 42035,
+                            'value': '0',
+                            'action': 'initialize_tvheadend',
+                            'type': 'bool',
+                            'parent': {'entry': 'enable_tvheadend','value': ['1']},
+                            'InfoText': 4235,
+                        },
                     },
                 },
                 'logos': {
@@ -315,6 +324,9 @@ class htscam:
                 options['TVH_DEBUG']    = '"%s"' % self.struct['tvheadend']['settings']['tvh_debug']['value']
                 options['TVH_FEINIT'] = '"%s"' % self.struct['tvheadend']['settings']['tvh_feinit']['value']
                 options['TVH_ANTPOWER'] = '"%s"' % self.struct['tvheadend']['settings']['tvh_antpower']['value']
+                if self.struct['tvheadend']['settings']['tvh_xmltv']['value'] == '1':
+                    self.oe.execute('rm -f /storage/.config/tvheadend/xmltv.data/*.upload', 0)
+                    self.struct['tvheadend']['settings']['tvh_xmltv']['value'] = '0'
             self.oe.set_service('tvheadend', options, state)
             self.oe.set_busy(0)
             self.oe.dbg_log('tvserver::initialize_tvheadend', 'exit_function', 0)

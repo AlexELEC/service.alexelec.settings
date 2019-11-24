@@ -1206,6 +1206,14 @@ msgctxt "#4234"
 msgid "Enable DVB-T2 antenna power (+5v)."
 msgstr ""
 
+msgctxt "#42035"
+msgid "Reset XMLTV EPG"
+msgstr ""
+
+msgctxt "#4235"
+msgid "Force update XMLTV EPG."
+msgstr ""
+
 ### Channel logos ###
 
 msgctxt "#43050"
