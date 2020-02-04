@@ -545,7 +545,7 @@ class ace:
         try:
             self.oe.dbg_log('ace::down_ptv_link', 'enter_function', 0)
             import urllib2
-            req = urllib2.Request('http://127.0.0.1:8185/downlink')
+            req = urllib2.Request('http://127.0.0.1:8185/lastlink')
             response = urllib2.urlopen(req)
             downlink = response.read()
             response.close()
@@ -553,7 +553,13 @@ class ace:
                 self.oe.notify(self.oe._(32363), 'Puzzle-TV: link is empty.')
             else:
                 dialog = xbmcgui.Dialog()
-                ret = dialog.ok('Puzzle-TV: move link down', ' ', downlink)
+                ret =  dialog.yesno('Puzzle-TV', 'Lower the priority of this link?', ' ', downlink)
+                if ret:
+                    req = urllib2.Request('http://127.0.0.1:8185/downlink')
+                    response = urllib2.urlopen(req)
+                    last_ch = response.read()
+                    response.close()
+                    if last_ch == 'none': self.oe.notify(self.oe._(32363), 'Puzzle-TV Error: Link is empty!')
         except Exception, e:
             self.oe.dbg_log('ace::down_ptv_link', 'ERROR: (' + repr(e) + ')')
 
