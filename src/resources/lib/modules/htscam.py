@@ -18,6 +18,7 @@ class htscam:
     ENABLED = False
     D_TVH_DEBUG = None
     D_TVH_FEINIT = None
+    D_TVH_TVLINK =None
     D_TVH_ANTPOWER = None
     ANTPOWER = None
 
@@ -98,8 +99,17 @@ class htscam:
                             'parent': {'entry': 'enable_tvheadend','value': ['1']},
                             'InfoText': 4232,
                         },
-                        'tvh_debug': {
+                        'tvh_tvlink': {
                             'order': 3,
+                            'name': 42036,
+                            'value': '0',
+                            'action': 'initialize_tvheadend',
+                            'type': 'bool',
+                            'parent': {'entry': 'enable_tvheadend','value': ['1']},
+                            'InfoText': 4236,
+                        },
+                        'tvh_debug': {
+                            'order': 4,
                             'name': 42033,
                             'value': '0',
                             'action': 'initialize_tvheadend',
@@ -108,7 +118,7 @@ class htscam:
                             'InfoText': 4233,
                         },
                         'tvh_antpower': {
-                            'order': 4,
+                            'order': 5,
                             'name': 42034,
                             'value': '0',
                             'action': 'initialize_tvheadend',
@@ -117,7 +127,7 @@ class htscam:
                             'InfoText': 4234,
                         },
                         'tvh_xmltv': {
-                            'order': 5,
+                            'order': 6,
                             'name': 42035,
                             'value': '0',
                             'action': 'initialize_tvheadend',
@@ -253,6 +263,9 @@ class htscam:
             self.struct['tvheadend']['settings']['tvh_feinit']['value'] = \
             self.oe.get_service_option('tvheadend', 'TVH_FEINIT', self.D_TVH_FEINIT).replace('"', '')
 
+            self.struct['tvheadend']['settings']['tvh_tvlink']['value'] = \
+            self.oe.get_service_option('tvheadend', 'TVH_TVLINK', self.D_TVH_TVLINK).replace('"', '')
+
             # dvb-t2 antenna power
             if os.path.isfile(self.ANTPOWER):
                 self.struct['tvheadend']['settings']['tvh_antpower']['value'] = \
@@ -323,6 +336,7 @@ class htscam:
                 state = 1
                 options['TVH_DEBUG']    = '"%s"' % self.struct['tvheadend']['settings']['tvh_debug']['value']
                 options['TVH_FEINIT'] = '"%s"' % self.struct['tvheadend']['settings']['tvh_feinit']['value']
+                options['TVH_TVLINK'] = '"%s"' % self.struct['tvheadend']['settings']['tvh_tvlink']['value']
                 options['TVH_ANTPOWER'] = '"%s"' % self.struct['tvheadend']['settings']['tvh_antpower']['value']
                 if self.struct['tvheadend']['settings']['tvh_xmltv']['value'] == '1':
                     self.oe.execute('rm -f /storage/.config/tvheadend/xmltv.data/*.upload', 0)

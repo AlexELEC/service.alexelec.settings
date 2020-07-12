@@ -1275,6 +1275,14 @@ msgctxt "#4232"
 msgid "Wait DVB frontend before the start TVH (max 30 sec)."
 msgstr "Ожидать инициализацию DVB адаптера перед стартом TVH (макс 30 сек)."
 
+msgctxt "#42036"
+msgid "Wait TVLINK"
+msgstr "Ждать TVLINK"
+
+msgctxt "#4236"
+msgid "Wait TVLINK before the start TVH (max 30 sec)."
+msgstr "Ожидать старта TVLINK перед запуском TVH (макс 30 сек)."
+
 msgctxt "#42033"
 msgid "Enable Debug"
 msgstr "Включить отладку"
