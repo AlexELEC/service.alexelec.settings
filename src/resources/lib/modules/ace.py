@@ -16,9 +16,6 @@ class ace:
     D_TORRSRV_PORT = None
     D_TORRSRV_DEBUG = None
     TORRSRV_GET_SRC = None
-    PAZL_GET_SRC = None
-    D_STREAM_PTV = None
-    D_CACHE_PTV = None
     D_ACEPROXY_DEBUG = None
 
     menu = {'92': {
@@ -98,94 +95,6 @@ class ace:
                             },
                         },
                     },
-                'ptv': {
-                    'order': 3,
-                    'name': 34090,
-                    'not_supported': [],
-                    'settings': {
-                        'enable_ptv': {
-                            'order': 1,
-                            'name': 34011,
-                            'value': None,
-                            'action': 'initialize_ptv',
-                            'type': 'bool',
-                            'InfoText': 3491,
-                            },
-                        'empty_ptv': {
-                            'order': 2,
-                            'name': 34092,
-                            'value': '0',
-                            'action': 'clean_ptv',
-                            'type': 'button',
-                            'parent': {
-                                'entry': 'enable_ptv',
-                                'value': ['1']
-                                },
-                            'InfoText': 3492,
-                            },
-                        'blist_ptv': {
-                            'order': 3,
-                            'name': 34096,
-                            'value': '0',
-                            'action': 'flush_blist_ptv',
-                            'type': 'button',
-                            'parent': {
-                                'entry': 'enable_ptv',
-                                'value': ['1']
-                                },
-                            'InfoText': 3496,
-                            },
-                        'upd_ptv': {
-                            'order': 4,
-                            'name': 34093,
-                            'value': '0',
-                            'action': 'update_ptv',
-                            'type': 'button',
-                            'parent': {
-                                'entry': 'enable_ptv',
-                                'value': ['1']
-                                },
-                            'InfoText': 3493,
-                            },
-                        'stream_ptv': {
-                            'order': 5,
-                            'name': 34094,
-                            'value': 'FFmpeg',
-                            'values': ['FFmpeg', 'VLC'],
-                            'action': 'initialize_ptv',
-                            'type': 'multivalue',
-                            'parent': {
-                                'entry': 'enable_ptv',
-                                'value': ['1']
-                                },
-                            'InfoText': 3494,
-                            },
-                        'cache_ptv': {
-                            'order': 6,
-                            'name': 34095,
-                            'value': '3',
-                            'action': 'initialize_ptv',
-                            'type': 'num',
-                            'parent': {
-                                'entry': 'enable_ptv',
-                                'value': ['1']
-                                },
-                            'InfoText': 3495,
-                            },
-                        'down_ptv': {
-                            'order': 7,
-                            'name': 34097,
-                            'value': '0',
-                            'action': 'down_ptv_link',
-                            'type': 'button',
-                            'parent': {
-                                'entry': 'enable_ptv',
-                                'value': ['1']
-                                },
-                            'InfoText': 3497,
-                            },
-                        },
-                    },
                 'aceproxy': {
                     'order': 4,
                     'name': 34020,
@@ -227,7 +136,6 @@ class ace:
             self.load_values()
             self.initialize_acestream()
             self.initialize_torrserver()
-            self.initialize_ptv()
             self.initialize_aceproxy()
             self.oe.dbg_log('ace::start_service', 'exit_function', 0)
         except Exception, e:
@@ -284,21 +192,6 @@ class ace:
 
             self.struct['torrserver']['settings']['torrsrv_debug']['value'] = \
             self.oe.get_service_option('torrserver', 'TORRSRV_DEBUG', self.D_TORRSRV_DEBUG).replace('"', '')
-
-            #PAZL TV
-            self.struct['ptv']['settings']['enable_ptv']['value'] = \
-                    self.oe.get_service_state('ptv')
-
-            self.struct['ptv']['settings']['stream_ptv']['value'] = \
-            self.oe.get_service_option('ptv', 'STREAM_PTV', self.D_STREAM_PTV).replace('"', '')
-
-            if self.struct['ptv']['settings']['stream_ptv']['value'] == 'VLC':
-                self.struct['ptv']['settings']['cache_ptv']['value'] = \
-                self.oe.get_service_option('ptv', 'CACHE_PTV', self.D_CACHE_PTV).replace('"', '')
-                if 'hidden' in self.struct['ptv']['settings']['cache_ptv']:
-                    del self.struct['ptv']['settings']['cache_ptv']['hidden']
-            else:
-                self.struct['ptv']['settings']['cache_ptv']['hidden'] = 'true'
 
             #ACEPROXY
             self.struct['aceproxy']['settings']['enable_aceproxy']['value'] = \
@@ -413,155 +306,6 @@ class ace:
             return 'ERROR'
         except Exception, e:
             self.oe.dbg_log('ace::get_torrsrv_source', 'ERROR: (%s)' % repr(e), 4)
-
-    def initialize_ptv(self, **kwargs):
-        try:
-            self.oe.dbg_log('ace::initialize_ptv', 'enter_function', 0)
-            self.oe.set_busy(1)
-            if 'listItem' in kwargs:
-                self.set_value(kwargs['listItem'])
-            options = {}
-            state = 0
-            if self.struct['ptv']['settings']['enable_ptv']['value'] == '1':
-
-                if not os.path.exists('/storage/.config/puzzle/puzzle.py'):
-                    ptv_status = self.get_ptv_source()
-                    if ptv_status == 'OK':
-                        self.oe.notify(self.oe._(32363), 'Run Puzzle-TV IPTV aggregator...')
-                    else:
-                        self.struct['ptv']['settings']['enable_ptv']['value'] = '0'
-                        self.oe.set_busy(0)
-                        xbmcDialog = xbmcgui.Dialog()
-                        answer = xbmcDialog.ok('Install Puzzle-TV',
-                            'Error: The program is not installed, try again.')
-                        return
-
-                if self.struct['ptv']['settings']['stream_ptv']['value'] == 'VLC':
-                    if 'hidden' in self.struct['ptv']['settings']['cache_ptv']:
-                        del self.struct['ptv']['settings']['cache_ptv']['hidden']
-                else:
-                    self.struct['ptv']['settings']['cache_ptv']['hidden'] = 'true'
-                state = 1
-                options['STREAM_PTV'] = '"%s"' % self.struct['ptv']['settings']['stream_ptv']['value']
-                options['CACHE_PTV'] = '"%s"' % self.struct['ptv']['settings']['cache_ptv']['value']
-
-            self.oe.set_service('ptv', options, state)
-            self.oe.set_busy(0)
-            self.oe.dbg_log('ace::initialize_ptv', 'exit_function', 0)
-        except Exception, e:
-            self.oe.set_busy(0)
-            self.oe.dbg_log('ace::initialize_ptv', 'ERROR: (%s)' % repr(e), 4)
-
-    def get_ptv_source(self, listItem=None, silent=False):
-        try:
-            self.oe.dbg_log('ace::get_ptv_source', 'enter_function', 0)
-            ptv_url = self.oe.execute(self.PAZL_GET_SRC + ' url', 1).strip()
-            self.download_file = ptv_url
-            self.oe.set_busy(0)
-            if hasattr(self, 'download_file'):
-                downloaded = self.oe.download_file(self.download_file, self.oe.TEMP + self.download_file.split('/')[-1], silent)
-                if not downloaded is None:
-                    self.oe.notify(self.oe._(32363), 'Install Puzzle-TV IPTV aggregator...')
-                    self.oe.set_busy(1)
-                    self.oe.execute(self.PAZL_GET_SRC + ' install', 0)
-                    self.oe.set_busy(0)
-                    self.oe.dbg_log('ace::get_ptv_source', 'exit_function', 0)
-                    return 'OK'
-            self.oe.dbg_log('ace::get_ptv_source', 'exit_function', 0)
-            return 'ERROR'
-        except Exception, e:
-            self.oe.dbg_log('ace::get_ptv_source', 'ERROR: (%s)' % repr(e), 4)
-
-    def update_ptv(self, listItem=None):
-        try:
-            self.oe.dbg_log('ace::update_ptv', 'enter_function', 0)
-            if os.path.exists('/storage/.config/puzzle/version'):
-                self.oe.notify(self.oe._(32363), 'Check new version...')
-                self.oe.set_busy(1)
-                ver_update = self.oe.execute(self.PAZL_GET_SRC + ' new', 1).strip()
-                self.oe.set_busy(0)
-                if not ver_update == 'NOT UPDATE':
-                    self.oe.set_busy(1)
-                    ver_current = self.oe.execute(self.PAZL_GET_SRC + ' old', 1).strip()
-                    self.oe.set_busy(0)
-                    dialog = xbmcgui.Dialog()
-                    ret = dialog.yesno('Update Puzzle-TV?', ' ', 'Current version:  %s' % ver_current,
-                                                                 'Update  version:  %s' % ver_update)
-                    if ret:
-                        self.oe.set_busy(1)
-                        self.oe.execute('systemctl stop ptv.service', 0)
-                        self.oe.execute(self.PAZL_GET_SRC + ' backup', 0)
-                        ptv_status = self.get_ptv_source()
-                        self.oe.set_busy(0)
-                        if ptv_status == 'OK':
-                            self.oe.notify(self.oe._(32363), 'Run Puzzle-TV version: %s ...' % ver_update)
-                        else:
-                            self.oe.notify(self.oe._(32363), 'Updates is not installed, try again.')
-                        self.oe.execute(self.PAZL_GET_SRC + ' restore', 0)
-                        self.oe.execute('systemctl start ptv.service', 0)
-                        if os.path.exists('/storage/.cache/services/tvheadend.conf'):
-                            self.oe.execute('systemctl restart tvheadend.service', 0)
-                else:
-                    self.oe.notify(self.oe._(32363), 'No updates available.')
-
-        except Exception, e:
-            self.oe.dbg_log('ace::update_ptv', 'ERROR: (' + repr(e) + ')')
-
-    def clean_ptv(self, listItem=None):
-        try:
-            self.oe.dbg_log('ace::clean_ptv', 'enter_function', 0)
-            dialog = xbmcgui.Dialog()
-            ret = dialog.yesno('Clean channel database?', ' ',
-                               'This completely cleanse channels and settings!')
-            if ret:
-                self.oe.set_busy(1)
-                self.oe.execute('systemctl stop ptv.service', 0)
-                self.oe.execute(self.PAZL_GET_SRC + ' clean', 0)
-                self.oe.execute('systemctl start ptv.service', 0)
-                self.oe.set_busy(0)
-                self.oe.notify(self.oe._(32363), 'Puzzle-TV: channel database cleared.')
-
-        except Exception, e:
-            self.oe.dbg_log('ace::clean_ptv', 'ERROR: (' + repr(e) + ')')
-
-    def flush_blist_ptv(self, listItem=None):
-        try:
-            self.oe.dbg_log('ace::flush_blist_ptv', 'enter_function', 0)
-            dialog = xbmcgui.Dialog()
-            ret = dialog.yesno('Clear channel blacklist?', ' ',
-                               'This completely cleanse blacklist channels!')
-            if ret:
-                self.oe.set_busy(1)
-                self.oe.execute('systemctl stop ptv.service', 0)
-                self.oe.execute('rm -f /storage/.config/puzzle/user/BList.*', 0)
-                self.oe.execute('systemctl start ptv.service', 0)
-                self.oe.set_busy(0)
-                self.oe.notify(self.oe._(32363), 'Puzzle-TV: blacklist of channels deleted.')
-
-        except Exception, e:
-            self.oe.dbg_log('ace::flush_blist_ptv', 'ERROR: (' + repr(e) + ')')
-
-    def down_ptv_link(self, listItem=None):
-        try:
-            self.oe.dbg_log('ace::down_ptv_link', 'enter_function', 0)
-            import urllib2
-            req = urllib2.Request('http://127.0.0.1:8185/lastlink')
-            response = urllib2.urlopen(req)
-            downlink = response.read()
-            response.close()
-            if downlink == 'none':
-                self.oe.notify(self.oe._(32363), 'Puzzle-TV: link is empty.')
-            else:
-                dialog = xbmcgui.Dialog()
-                ret =  dialog.yesno('Puzzle-TV', 'Lower the priority of this link?', ' ', downlink)
-                if ret:
-                    req = urllib2.Request('http://127.0.0.1:8185/downlink')
-                    response = urllib2.urlopen(req)
-                    last_ch = response.read()
-                    response.close()
-                    if last_ch == 'none': self.oe.notify(self.oe._(32363), 'Puzzle-TV Error: Link is empty!')
-        except Exception, e:
-            self.oe.dbg_log('ace::down_ptv_link', 'ERROR: (' + repr(e) + ')')
 
     def initialize_aceproxy(self, **kwargs):
         try:

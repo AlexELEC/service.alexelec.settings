@@ -51,10 +51,6 @@ ace = {
     'D_TORRSRV_PORT'  : '8090',
     'D_TORRSRV_DEBUG' : '0',
     'TORRSRV_GET_SRC' : "%s/torrsrv-get.sh" % SCRIPT_DIR(),
-    #PAZL TV
-    'PAZL_GET_SRC'    : "%s/pazl-get.sh" % SCRIPT_DIR(),
-    'D_STREAM_PTV'    : 'FFmpeg',
-    'D_CACHE_PTV'     : '3',
     #ACEPROXY
     'D_ACEPROXY_DEBUG': 'INFO',
     }
@@ -168,7 +164,6 @@ _services = {
     'iptables': ['iptables.service'],
     'acestream': ['acestream.service'],
     'torrserver': ['torrserver.service'],
-    'ptv': ['ptv.service'],
     'aceproxy': ['aceproxy.service'],
     'dvbmode': ['dvbmode.service'],
     'oscam': ['oscam.service'],
