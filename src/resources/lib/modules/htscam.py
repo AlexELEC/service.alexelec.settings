@@ -16,6 +16,7 @@ import subprocess
 class htscam:
 
     ENABLED = False
+    TVLINK_GET_SRC = None
     D_TVH_DEBUG = None
     D_TVH_FEINIT = None
     D_TVH_TVLINK =None
@@ -77,8 +78,32 @@ class htscam:
                         },
                     },
                 },
-                'tvheadend': {
+                'tvlink': {
                     'order': 3,
+                    'name': 42025,
+                    'not_supported': [],
+                    'settings': {
+                        'enable_tvlink': {
+                            'order': 1,
+                            'name': 42026,
+                            'value': '0',
+                            'action': 'initialize_tvlink',
+                            'type': 'bool',
+                            'InfoText': 4226,
+                        },
+                        'upd_tvlink': {
+                            'order': 2,
+                            'name': 42027,
+                            'value': '0',
+                            'action': 'update_tvlink',
+                            'type': 'button',
+                            'parent': {'entry': 'enable_tvlink','value': ['1']},
+                            'InfoText': 4227,
+                        },
+                    },
+                },
+                'tvheadend': {
+                    'order': 4,
                     'name': 42030,
                     'not_supported': [],
                     'settings': {
@@ -138,7 +163,7 @@ class htscam:
                     },
                 },
                 'logos': {
-                    'order': 4,
+                    'order': 5,
                     'name': 43050,
                     'not_supported': [],
                     'settings': {
@@ -201,6 +226,7 @@ class htscam:
             self.load_values()
             self.initialize_dvbmode()
             self.initialize_oscam()
+            self.initialize_tvlink()
             self.initialize_tvheadend()
             self.initialize_logos()
             self.oe.dbg_log('tvserver::start_service', 'exit_function', 0)
@@ -252,6 +278,10 @@ class htscam:
             # OSCAM_DAEMON
             self.struct['oscam']['settings']['enable_oscam']['value'] = \
                     self.oe.get_service_state('oscam')
+
+            # TVLINK
+            self.struct['tvlink']['settings']['enable_tvlink']['value'] = \
+                    self.oe.get_service_state('tvlink')
 
             # TVHEADEND
             self.struct['tvheadend']['settings']['enable_tvheadend']['value'] = \
@@ -323,6 +353,90 @@ class htscam:
         except Exception, e:
             self.oe.set_busy(0)
             self.oe.dbg_log('tvserver::initialize_oscam', 'ERROR: (%s)' % repr(e), 4)
+
+    def initialize_tvlink(self, **kwargs):
+        try:
+            self.oe.dbg_log('tvserver::initialize_tvlink', 'enter_function', 0)
+            self.oe.set_busy(1)
+            if 'listItem' in kwargs:
+                self.set_value(kwargs['listItem'])
+            options = {}
+            state = 0
+            if self.struct['tvlink']['settings']['enable_tvlink']['value'] == '1':
+
+                if not os.path.exists('/storage/.config/tvlink/tvlink.py'):
+                    tvl_status = self.get_tvl_source()
+                    if tvl_status == 'OK':
+                        self.oe.notify(self.oe._(32363), 'Starting TVLINK...')
+                    else:
+                        self.struct['tvlink']['settings']['enable_tvlink']['value'] = '0'
+                        self.oe.set_busy(0)
+                        xbmcDialog = xbmcgui.Dialog()
+                        answer = xbmcDialog.ok('Install TVLINK',
+                            'Error: The program is not installed, try again.')
+                        return
+                state = 1
+            self.oe.set_service('tvlink', options, state)
+            self.oe.set_busy(0)
+            self.oe.dbg_log('tvserver::initialize_tvlink', 'exit_function', 0)
+        except Exception, e:
+            self.oe.set_busy(0)
+            self.oe.dbg_log('tvserver::initialize_tvlink', 'ERROR: (%s)' % repr(e), 4)
+
+    def get_tvl_source(self, listItem=None, silent=False):
+        try:
+            self.oe.dbg_log('tvserver::get_tvl_source', 'enter_function', 0)
+            tvl_url = self.oe.execute(self.TVLINK_GET_SRC + ' url', 1).strip()
+            self.download_file = tvl_url
+            self.oe.set_busy(0)
+            if hasattr(self, 'download_file'):
+                downloaded = self.oe.download_file(self.download_file, self.oe.TEMP + self.download_file.split('/')[-1], silent)
+                if not downloaded is None:
+                    self.oe.notify(self.oe._(32363), 'Install TVLINK...')
+                    self.oe.set_busy(1)
+                    self.oe.execute(self.TVLINK_GET_SRC + ' install', 0)
+                    self.oe.set_busy(0)
+                    self.oe.dbg_log('tvserver::get_tvl_source', 'exit_function', 0)
+                    return 'OK'
+            self.oe.dbg_log('tvserver::get_tvl_source', 'exit_function', 0)
+            return 'ERROR'
+        except Exception, e:
+            self.oe.dbg_log('tvserver::get_tvl_source', 'ERROR: (%s)' % repr(e), 4)
+
+    def update_tvlink(self, listItem=None):
+        try:
+            self.oe.dbg_log('tvserver::update_tvlink', 'enter_function', 0)
+            if os.path.exists('/storage/.config/tvlink/tvlink.py'):
+                self.oe.notify(self.oe._(32363), 'Check new version...')
+                self.oe.set_busy(1)
+                ver_update = self.oe.execute(self.TVLINK_GET_SRC + ' new', 1).strip()
+                self.oe.set_busy(0)
+                if not ver_update == 'NOT UPDATE':
+                    self.oe.set_busy(1)
+                    ver_current = self.oe.execute(self.TVLINK_GET_SRC + ' old', 1).strip()
+                    self.oe.set_busy(0)
+                    dialog = xbmcgui.Dialog()
+                    ret = dialog.yesno('Update TVLINK?', ' ', 'Current version:  %s' % ver_current,
+                                                              'Update  version:  %s' % ver_update)
+                    if ret:
+                        self.oe.set_busy(1)
+                        self.oe.execute('systemctl stop tvlink.service', 0)
+                        self.oe.execute(self.TVLINK_GET_SRC + ' backup', 0)
+                        tvl_status = self.get_tvl_source()
+                        self.oe.set_busy(0)
+                        if tvl_status == 'OK':
+                            self.oe.notify(self.oe._(32363), 'Run TVLINK version: %s ...' % ver_update)
+                        else:
+                            self.oe.notify(self.oe._(32363), 'Updates is not installed, try again.')
+                        self.oe.execute(self.TVLINK_GET_SRC + ' restore', 0)
+                        self.oe.execute('systemctl start tvlink.service', 0)
+                        if os.path.exists('/storage/.cache/services/tvheadend.conf'):
+                            self.oe.execute('systemctl restart tvheadend.service', 0)
+                else:
+                    self.oe.notify(self.oe._(32363), 'No updates available.')
+
+        except Exception, e:
+            self.oe.dbg_log('tvserver::update_tvlink', 'ERROR: (' + repr(e) + ')')
 
     def initialize_tvheadend(self, **kwargs):
         try:

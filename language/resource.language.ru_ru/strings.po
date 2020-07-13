@@ -1253,6 +1253,28 @@ msgctxt "#4221"
 msgid "OSCam is an Open Source Conditional Access Module software, based on the very good MpCS version 0.9d."
 msgstr "OSCam - это программное обеспечение модуля условного доступа с открытым исходным кодом, основанное на очень хорошей версии MpCS 0.9d."
 
+### TVLINK ###
+
+msgctxt "#42025"
+msgid "TVLINK server"
+msgstr "TVLINK сервер"
+
+msgctxt "#42026"
+msgid "Enable TVLINK"
+msgstr "Включить TVLINK"
+
+msgctxt "#4226"
+msgid "TVLINK is a restreamer and aggregator of IPTV channels (http://ip-address:2020)."
+msgstr "TVLINK - рестример и агрегатор каналов IPTV (http://ip-address:2020)."
+
+msgctxt "#42027"
+msgid "Check for Updates"
+msgstr "Обновление"
+
+msgctxt "#4227"
+msgid "Checking and installing software updates."
+msgstr "Проверка и установка обновлений программы."
+
 ### TVHEADEND ###
 
 msgctxt "#42030"
