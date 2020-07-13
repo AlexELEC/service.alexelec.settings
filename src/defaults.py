@@ -146,7 +146,6 @@ system = {
     'RUN_UPDATE'        : "%s/update.sh" % SCRIPT_DIR(),
     # INSTALL TO NAND   
     'D_FULL_SET'        : '1',
-    'D_CLEAN_ANDR'      : '0',
     'NAND_INSTALL'      : "%s/installnand.sh" % SCRIPT_DIR(),
     'NAND_REMOTE'       : "%s/installrc.sh" % SCRIPT_DIR(),
     'NAND_REBOOT'       : "systemd-run %s/installfull.sh" % SCRIPT_DIR(),
