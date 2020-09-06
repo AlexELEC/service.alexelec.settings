@@ -1275,6 +1275,14 @@ msgctxt "#4227"
 msgid "Checking and installing software updates."
 msgstr "Проверка и установка обновлений программы."
 
+msgctxt "#42028"
+msgid "TVH Streamer"
+msgstr "TVH Стример"
+
+msgctxt "#4228"
+msgid "Streamer for Tvheadend playlist."
+msgstr "Стример для Tvheadend плейлиста (FFmpeg или VLC)."
+
 ### TVHEADEND ###
 
 msgctxt "#42030"

@@ -17,6 +17,7 @@ class htscam:
 
     ENABLED = False
     TVLINK_GET_SRC = None
+    D_STREAMER = None
     D_TVH_DEBUG = None
     D_TVH_FEINIT = None
     D_TVH_TVLINK =None
@@ -99,6 +100,16 @@ class htscam:
                             'type': 'button',
                             'parent': {'entry': 'enable_tvlink','value': ['1']},
                             'InfoText': 4227,
+                        },
+                        'strm_tvlink': {
+                            'order': 3,
+                            'name': 42028,
+                            'value': 'FFmpeg',
+                            'values': ['FFmpeg', 'VLC'],
+                            'action': 'initialize_tvlink',
+                            'type': 'multivalue',
+                            'parent': {'entry': 'enable_tvlink','value': ['1']},
+                            'InfoText': 4228,
                         },
                     },
                 },
@@ -283,6 +294,9 @@ class htscam:
             self.struct['tvlink']['settings']['enable_tvlink']['value'] = \
                     self.oe.get_service_state('tvlink')
 
+            self.struct['tvlink']['settings']['strm_tvlink']['value'] = \
+            self.oe.get_service_option('tvlink', 'STREAMER', self.D_STREAMER).replace('"', '')
+
             # TVHEADEND
             self.struct['tvheadend']['settings']['enable_tvheadend']['value'] = \
                     self.oe.get_service_state('tvheadend')
@@ -375,6 +389,7 @@ class htscam:
                         answer = xbmcDialog.ok('Install TVLINK',
                             'Error: The program is not installed, try again.')
                         return
+                options['STREAMER'] = '"%s"' % self.struct['tvlink']['settings']['strm_tvlink']['value']
                 state = 1
             self.oe.set_service('tvlink', options, state)
             self.oe.set_busy(0)

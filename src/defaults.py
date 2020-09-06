@@ -63,6 +63,7 @@ htscam = {
     'ENABLED'        : True,
     #TVLINK
     'TVLINK_GET_SRC' : "%s/tvlink-get.sh" % SCRIPT_DIR(),
+    'D_STREAMER'     : 'FFmpeg',
 
     #TVHEADEND
     'D_TVH_DEBUG'    : '0',

@@ -1190,6 +1190,14 @@ msgctxt "#4227"
 msgid "Checking and installing software updates."
 msgstr ""
 
+msgctxt "#42028"
+msgid "TVH Streamer"
+msgstr ""
+
+msgctxt "#4228"
+msgid "Streamer for Tvheadend playlist."
+msgstr ""
+
 ### TVHEADEND ###
 
 msgctxt "#42030"
