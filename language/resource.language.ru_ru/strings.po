@@ -51,8 +51,8 @@ msgid "AlexELEC is created by a global team of Linux and Kodi enthusiasts who co
 msgstr "AlexELEC создан командой энтузиастов Linux и Kodi, которые тратят время и усилия на управление проектом, написание кода и оказание поддержки. Надеемся, вам понравится это!"
 
 msgctxt "#610"
-msgid "[B]Support[/B] is provided via our forum:[CR]http://forum.alexelec.in.ua[CR][CR][B]Documentation[/B] can be read in our website:[CR]http://www.alexelec.in.ua[CR][CR][B]Code[/B] can be found on GitHub:[CR]https://github.com/AlexELEC[CR][CR][B]Donations[/B] towards project expenses are accepted via page:[CR]http://www.alexelec.in.ua/membership[CR]By clicking on an advertisement for a site or forum you also support the project. Do not be shy :)"
-msgstr "[B]Поддержка[/B] предоставляется через форум:[CR]http://forum.alexelec.in.ua[CR][B]Документацию[/B] можно прочитать на сайте:[CR]http://www.alexelec.in.ua[CR][B]Исходный код[/B] можно найти на GitHub:[CR]https://github.com/AlexELEC[CR][B]Пожертвования[/B] на расходы по проекту принимаются на странице:[CR]http://www.alexelec.in.ua/membership[CR]Кликая на рекламе сайта или форума вы также оказываете поддержку проекту. Не стесняйтесь :)"
+msgid "[B]Support[/B] is provided via our forum:[CR]https://forum.alexelec.tv[CR][CR][B]Documentation[/B] can be read in our website:[CR]https://alexelec.tv[CR][CR][B]Code[/B] can be found on GitHub:[CR]https://github.com/AlexELEC[CR][CR][B]Donations[/B] towards project expenses are accepted via page:[CR]https://alexelec.tv/o-sisteme[CR]By clicking on an advertisement for a site or forum you also support the project. Do not be shy :)"
+msgstr "[B]Поддержка[/B] предоставляется через форум:[CR]https://forum.alexelec.tv[CR][B]Документацию[/B] можно прочитать на сайте:[CR]https://alexelec.tv[CR][B]Исходный код[/B] можно найти на GitHub:[CR]https://github.com/AlexELEC[CR][B]Пожертвования[/B] на расходы по проекту принимаются на странице:[CR]https://alexelec.tv/o-sisteme[CR]Кликая на рекламе сайта или форума вы также оказываете поддержку проекту. Не стесняйтесь :)"
 
 msgctxt "#700"
 msgid ""
